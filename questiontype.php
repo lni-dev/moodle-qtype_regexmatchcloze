@@ -43,90 +43,124 @@ require_once($CFG->dirroot . '/question/type/regexmatchcloze/question.php');
  */
 class qtype_regexmatchcloze extends question_type {
 
-      /* ties additional table fields to the database */
-    public function extra_question_fields() {
-        return array('question_regexmatchcloze', 'somefieldname','anotherfieldname');
+    /**
+     * Response cannot be analysed, because the method get_possible_responses cannot be implemented.
+     * @return false
+     */
+    public function can_analyse_responses() {
+        return false;
     }
+
+    public function save_question_options($question) {
+        parent::save_question_options($question);
+        $this->save_question_answers($question);
+        $this->save_hints($question);
+    }
+
+    public function extra_question_fields() {
+        return null;
+    }
+
+    public function extra_answer_fields() {
+        return null;
+    }
+
+    protected function make_answer($answer): qtype_regexmatch_answer {
+        return new qtype_regexmatch_answer(
+            $answer->id,
+            $answer->answer,
+            $answer->fraction,
+            $answer->feedback,
+            $answer->feedbackformat
+        );
+    }
+
+    public function get_random_guess_score($questiondata) {
+        return 0;
+    }
+
     public function move_files($questionid, $oldcontextid, $newcontextid) {
         parent::move_files($questionid, $oldcontextid, $newcontextid);
+        $this->move_files_in_answers($questionid, $oldcontextid, $newcontextid);
         $this->move_files_in_hints($questionid, $oldcontextid, $newcontextid);
     }
 
     protected function delete_files($questionid, $contextid) {
         parent::delete_files($questionid, $contextid);
+        $this->delete_files_in_answers($questionid, $contextid);
         $this->delete_files_in_hints($questionid, $contextid);
     }
-     /**
-     * @param stdClass $question
-     * @param array $form
-     * @return object
-     */
-    public function save_question($question, $form) {
-        return parent::save_question($question, $form);
-    }
-    public function save_question_options($question) {
-        global $DB;
-        $options = $DB->get_record('question_regexmatchcloze', array('questionid' => $question->id));
-        if (!$options) {
-            $options = new stdClass();
-            $options->questionid = $question->id;
-            /* add any more non combined feedback fields here */
-            $options->id = $DB->insert_record('question_imageselect', $options);
-        }
-        $options = $this->save_combined_feedback_helper($options, $question, $question->context, true);
-        $DB->update_record('question_regexmatchcloze', $options);
-        $this->save_hints($question);
-    }
 
- /* 
- * populates fields such as combined feedback 
- * also make $DB calls to get data from other tables
- */
-   public function get_question_options($question) {
-     //TODO
-       parent::get_question_options($question);
-    }
-
- /**
- * executed at runtime (e.g. in a quiz or preview 
- **/
     protected function initialise_question_instance(question_definition $question, $questiondata) {
         parent::initialise_question_instance($question, $questiondata);
         $this->initialise_question_answers($question, $questiondata);
-        parent::initialise_combined_feedback($question, $questiondata);
     }
-    
-   public function initialise_question_answers(question_definition $question, $questiondata,$forceplaintextanswers = true){ 
-     //TODO
-    }
-    
+
     public function import_from_xml($data, $question, qformat_xml $format, $extra = null) {
-        if (!isset($data['@']['type']) || $data['@']['type'] != 'question_regexmatchcloze') {
+        global $CFG;
+        require_once($CFG->dirroot.'/question/type/regexmatch/question.php');
+
+        if (!isset($data['@']['type']) || $data['@']['type'] != 'question_regexmatch') {
             return false;
         }
-        $question = parent::import_from_xml($data, $question, $format, null);
-        $format->import_combined_feedback($question, $data, true);
-        $format->import_hints($question, $data, true, false, $format->get_format($question->questiontextformat));
-        return $question;
+
+        $qo = $format->import_headers($data);
+        $qo->qtype = $data['@']['type'];
+
+        // Run through the answers.
+        $answers = $data['#']['answer'];
+        $acount = 0;
+
+        $qo->answer = [];
+        $qo->answerformat = [];
+        $qo->fraction = [];
+        $qo->feedback = [];
+        $qo->feedbackformat = [];
+
+        foreach ($answers as $answer) {
+            $ans = $format->import_answer($answer, false, $format->get_format($qo->questiontextformat));
+            $qo->answer[$acount] = $ans->answer['text'];
+            $qo->fraction[$acount] = $ans->fraction;
+            $qo->feedback[$acount] = $ans->feedback;
+            ++$acount;
+        }
+
+        $format->import_hints($qo, $data);
+        return $qo;
     }
+
+    /**
+     * @param qtype_regexmatch_question $question
+     * @param qformat_xml $format
+     * @param $extra
+     * @return string
+     */
     public function export_to_xml($question, qformat_xml $format, $extra = null) {
-        global $CFG;
-        $pluginmanager = core_plugin_manager::instance();
-        $gapfillinfo = $pluginmanager->get_plugin_info('question_regexmatchcloze');
-        $output = parent::export_to_xml($question, $format);
-        //TODO
-        $output .= $format->write_combined_feedback($question->options, $question->id, $question->contextid);
-        return $output;
-    }
+        $expout = parent::export_to_xml($question, $format, $extra);
 
+        if(!$expout)
+            $expout = '';
 
-    public function get_random_guess_score($questiondata) {
-        // TODO.
-        return 0;
-    }
+        $extraanswersfields = $this->extra_answer_fields();
+        if (is_array($extraanswersfields))
+            array_shift($extraanswersfields);
 
-    public function get_possible_responses($questiondata) {
-        // TODO.
-        return array();
+        foreach ($question->options->answers as $answer) {
+            $extra = '';
+            if (is_array($extraanswersfields)) {
+                foreach ($extraanswersfields as $field) {
+                    if(!isset($answer->$field) || $answer->$field == 0)
+                        continue;
+                    $exportedvalue = $format->xml_escape($answer->$field);
+                    $extra .= "      <{$field}>{$exportedvalue}</{$field}>\n";
+                }
+            }
+
+            $expout .= $format->write_answer($answer, $extra);
+        }
+
+        $expout .= $format->write_hints($question);
+
+        return $expout;
     }
 }

@@ -15,27 +15,21 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * regexmatchcloze question type version information.
- *
- * @package    qtype
- * @subpackage regexmatchcloze
- * @copyright  2025 Linus Andera (linus@linusdev.de)
-
+ * @package    moodlecore
+ * @subpackage backup-moodle2
+ * @copyright  2010 onwards Eloy Lafuente (stronk7) {@link http://stronk7.com}
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
+
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->component = 'qtype_regexmatchcloze';
 
-/**
- * format: yyyymmddnn<br>
- * nn: number to increase if needed<br>
- * <br>
- * underscores are not allowed inside the number
- */
-$plugin->version   = 2025040200;
+class restore_qtype_regexmatchcloze_plugin extends restore_qtype_extrafields_plugin {
 
-$plugin->requires  = 2022112807; // Moodle 4.1.7
-
-$plugin->maturity  = MATURITY_ALPHA;
+    /**
+     * Process the qtype/regexmatch element
+     */
+    public function process_regexmatch($data) {
+    }
+}
