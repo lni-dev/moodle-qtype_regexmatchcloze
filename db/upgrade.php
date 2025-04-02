@@ -18,20 +18,20 @@
  * Multi-answer question type upgrade code.
  *
  * @package    qtype
- * @subpackage YOURQTYPENAME
+ * @subpackage regexmatchcloze
  * @copyright  2912 Marcus Green 
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 defined('MOODLE_INTERNAL') || die();
 
 /**
- * Upgrade code for the YOURQTYPENAME question type.
+ * Upgrade code for the regexmatchcloze question type.
  * A selection of things you might want to do when upgrading
  * to a new version. This file is generally not needed for 
  * the first release of a question type.
  * @param int $oldversion the version we are upgrading from.
  */
-function xmldb_qtype_YOURQTYPENAME_upgrade($oldversion = 0) {
+function xmldb_qtype_regexmatchcloze_upgrade($oldversion = 0) {
     global $CFG, $DB;
 
     $dbman = $DB->get_manager();

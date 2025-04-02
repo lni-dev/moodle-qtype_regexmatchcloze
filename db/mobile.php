@@ -15,36 +15,36 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * YOURQTYPENAME question type  capability definition
+ * regexmatchcloze question type  capability definition
  *
- * @package    qtype_YOURQTYPENAME
+ * @package    qtype_regexmatchcloze
  * @copyright  20XX Author Name
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 defined('MOODLE_INTERNAL') || die();
 
 $addons = [
-    "qtype_YOURQTYPENAME" => [
+    "qtype_regexmatchcloze" => [
         "handlers" => [ // Different places where the add-on will display content.
-            'YOURQTYPENAME' => [ // Handler unique name (can be anything).
+            'regexmatchcloze' => [ // Handler unique name (can be anything).
                 'displaydata' => [
-                    'title' => 'YOURQTYPENAME question',
-                    'icon' => '/question/type/YOURQTYPENAME/pix/icon.gif',
+                    'title' => 'regexmatchcloze question',
+                    'icon' => '/question/type/regexmatchcloze/pix/icon.gif',
                     'class' => '',
                 ],
                 'delegate' => 'CoreQuestionDelegate', // Delegate (where to display the link to the add-on).
-                'method' => 'mobile_get_YOURQTYPENAME',
+                'method' => 'mobile_get_regexmatchcloze',
                 'offlinefunctions' => [
-                    'mobile_get_YOURQTYPENAME' => [],// function in classes/output/mobile.php
+                    'mobile_get_regexmatchcloze' => [],// function in classes/output/mobile.php
                 ], // Function needs caching for offline.
                 'styles' => [
-                    'url' => '/question/type/YOURQTYPENAME/mobile/styles_app.css',
+                    'url' => '/question/type/regexmatchcloze/mobile/styles_app.css',
                     'version' => '1.00'
                 ]
             ]
         ],
         'lang' => [
-                    ['pluginname', 'qtype_YOURQTYPENAME'], // matching value in  lang/en/qtype_YOURQTYPENAME
+                    ['pluginname', 'qtype_regexmatchcloze'], // matching value in  lang/en/qtype_regexmatchcloze
         ],
     ]
 ];

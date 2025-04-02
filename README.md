@@ -64,9 +64,9 @@ be ignored.
 
 ## Use
 
-* Copy or rename the module directory to YOURQTYPENAME.
-* Replace all occurances of YOURQTYPENAME in files with the new name for your question type.
-* Rename files that have YOURQTYPENAME replacing YOURQTYPENAME with the new name for your question type.
-* Replace '@copyright  THEYEAR YOURNAME (YOURCONTACTINFO)' with something like @copyright  2016 Marcus Green (mgreen@example.org)
+* Copy or rename the module directory to regexmatchcloze.
+* Replace all occurances of regexmatchcloze in files with the new name for your question type.
+* Rename files that have regexmatchcloze replacing regexmatchcloze with the new name for your question type.
+* Replace '@copyright  2025 Linus Andera (linus@linusdev.de)' with something like @copyright  2016 Marcus Green (mgreen@example.org)
 * See http://docs.moodle.org/dev/Question_types for more info on how to create a question type plug in. Please add to it where
  you can.
