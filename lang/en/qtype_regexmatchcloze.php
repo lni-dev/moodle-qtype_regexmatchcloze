@@ -29,3 +29,7 @@ $string['pluginname_link'] = 'question/type/regexmatchcloze';
 $string['pluginnameadding'] = 'Adding a regexmatchcloze question';
 $string['pluginnameediting'] = 'Editing a regexmatchcloze question';
 $string['pluginnamesummary'] = 'A regexmatchcloze question type that allows something to be done that can test a student on some understanding.';
+$string['regex-number'] = 'Gap {$a}';
+$string['error-no-gaps'] = 'The question text must contain at least one gap ("[[1]]").';
+$string['error-no-such-gap'] = 'The corresponding gap does not exist in the question text.';
+$string['error-gap-not-defined'] = 'Gap {$a} is not defined below.';

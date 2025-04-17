@@ -43,7 +43,7 @@ class qtype_regexmatchcloze_edit_form extends question_edit_form {
     protected function definition_inner($mform) {
         $this->add_per_answer_fields(
             $mform,
-            get_string('regex-number', 'qtype_regexmatch', '{no}'),
+            get_string('regex-number', 'qtype_regexmatchcloze', '{no}'),
             question_bank::fraction_options()
         );
 
@@ -71,28 +71,13 @@ class qtype_regexmatchcloze_edit_form extends question_edit_form {
         $repeated[] = $mform->createElement('textarea',
             'answer',
             $label,
-            array('size' => 1000)
+            array('size' => 1000, 'rows' => 7)
         );
 
         $repeated[] = $mform->createElement('static', 'options', get_string('options', 'qtype_regexmatch'), 'I, D, P, R, O');
         $repeated[] = $mform->createElement('static', 'default-options', get_string('default_options', 'qtype_regexmatch'), 'S, T');
 
-
-        $repeated[] = $mform->createElement('select',
-            'fraction',
-            get_string('gradenoun'),
-            $gradeoptions
-        );
-
-        $repeated[] = $mform->createElement('editor',
-            'feedback',
-            get_string('feedback', 'question'),
-            array('rows' => 5),
-            $this->editoroptions
-        );
-
         $repeatedoptions['answer']['type'] = PARAM_RAW;
-        $repeatedoptions['fraction']['default'] = 0;
         $answersoption = 'answers';
         return $repeated;
     }
@@ -108,15 +93,34 @@ class qtype_regexmatchcloze_edit_form extends question_edit_form {
     public function validation($fromform, $files): array {
         $errors = parent::validation($fromform, $files);
 
+        $questionText = $fromform['questiontext']['text'];
+
+        if(preg_match_all("/\[\[(?P<number>[0-9]+)\]\]/", $questionText, $matches)) {
+            print_r($matches);
+        }
+
+        $gaps = array();
+        $max = -1;
+        foreach ($matches['number'] as $number) {
+            $max = max($max, $number);
+            $gaps[$number] = false;
+        }
+
+        if($max == -1) {
+            $errors['questiontext'] = get_string('error-no-gaps', 'qtype_regexmatchcloze');
+        }
+
         $answers = $fromform['answer'];
 
-        $answerCount = 0;
-        $maxGrade = false;
-
         foreach ($answers as $key => $answer) {
+            $keyp1 = $key+1;
+            $fromform['feedback'][$key]['text'] = "$$keyp1";
             if ($answer !== '') {
-                $answerCount++;
-                if ($fromform['fraction'][$key] == 1) $maxGrade = true;
+                if(!array_key_exists($key+1, $gaps)) {
+                    $errors["answer[$key]"] = get_string('error-no-such-gap', 'qtype_regexmatchcloze');
+                    continue;
+                }
+                $gaps[$key+1] = true;
 
 
                 // check syntax
@@ -156,8 +160,8 @@ class qtype_regexmatchcloze_edit_form extends question_edit_form {
                             if(preg_match("/[a-z]+=/", $keyValuePair, $matches)) {
                                 $match = $matches[0];
                                 $found = false;
-                                for (; $nextKey < count(REGEXMATCH_ALLOWED_KEYS); $nextKey++) {
-                                    if($match == REGEXMATCH_ALLOWED_KEYS[$nextKey]) {
+                                for (; $nextKey < count(REGEXMATCH_CLOZE_ALLOWED_KEYS); $nextKey++) {
+                                    if($match == REGEXMATCH_CLOZE_ALLOWED_KEYS[$nextKey]) {
                                         $found = true;
                                         break;
                                     }
@@ -165,14 +169,14 @@ class qtype_regexmatchcloze_edit_form extends question_edit_form {
 
                                 if(!$found) {
                                     $isAllowed = false;
-                                    foreach (REGEXMATCH_ALLOWED_KEYS as $allowed) {
+                                    foreach (REGEXMATCH_CLOZE_ALLOWED_KEYS as $allowed) {
                                         if ($allowed == $match) {
                                             $isAllowed = true;
                                             break;
                                         }
                                     }
                                     if($isAllowed) {
-                                        $errors["answer[$key]"] = get_string('valerror_illegalkeyorder', 'qtype_regexmatch', implode(', ', REGEXMATCH_ALLOWED_KEYS));
+                                        $errors["answer[$key]"] = get_string('valerror_illegalkeyorder', 'qtype_regexmatch', implode(', ', REGEXMATCH_CLOZE_ALLOWED_KEYS));
                                     } else  {
                                         $errors["answer[$key]"] = get_string('valerror_unkownkey', 'qtype_regexmatch', $match);
                                     }
@@ -184,23 +188,14 @@ class qtype_regexmatchcloze_edit_form extends question_edit_form {
                     }
                 }
 
-
-
-
-
-            } else if ($fromform['fraction'][$key] != 0 || !html_is_blank($fromform['feedback'][$key]['text'])) {
-                $errors["answer[$key]"] = get_string('fborgradewithoutregex', 'qtype_regexmatch');
-                $answerCount++;
             }
-
-
         }
 
-        if ($answerCount==0)
-            $errors['answer[0]'] = get_string('notenoughregexes', 'qtype_regexmatch');
-
-        if (!$maxGrade)
-            $errors['answer[0]'] = get_string('fractionsnomax', 'question');
+        foreach ($gaps as $key => $value) {
+            if(!$value) {
+                $errors['questiontext'] = get_string('error-gap-not-defined', 'qtype_regexmatchcloze', $key);
+            }
+        }
 
         return $errors;
     }

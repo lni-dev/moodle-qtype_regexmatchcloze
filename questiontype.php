@@ -23,16 +23,18 @@
 
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
- 
+
  /*https://docs.moodle.org/dev/Question_types#Question_type_and_question_definition_classes*/
 
 
 defined('MOODLE_INTERNAL') || die();
 
+
+
 require_once($CFG->libdir . '/questionlib.php');
 require_once($CFG->dirroot . '/question/engine/lib.php');
 require_once($CFG->dirroot . '/question/type/regexmatchcloze/question.php');
-
+require_once($CFG->dirroot . '/question/type/regexmatch/question.php');
 
 /**
  * The regexmatchcloze question type.
@@ -49,6 +51,22 @@ class qtype_regexmatchcloze extends question_type {
      */
     public function can_analyse_responses() {
         return false;
+    }
+
+    public function save_question($question, $form) {
+        // Since we are missing some fields in the ui we must set these to default values before saving.
+        foreach ($form->answer as $key => $answerdata) {
+            $form->fraction[$key] = 0;
+            $form->feedback[$key]['text'] = "";
+
+            if(!$this->is_answer_empty($form, $key)) {
+                $form->feedback[$key]['format'] = FORMAT_PLAIN;
+                $index = $key + 1;
+                $form->feedback[$key]['text'] = "$index"; // feedback text stores the answer index
+            }
+        }
+
+        return parent::save_question($question, $form);
     }
 
     public function save_question_options($question) {
