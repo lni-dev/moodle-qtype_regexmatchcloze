@@ -50,7 +50,7 @@ class qtype_regexmatchcloze_edit_form extends question_edit_form {
         // Add Help Button to the first to 5th answer text field
         // Add (?) / help button
         for ($i = 0; $i < 10; $i++) {
-            $mform->addHelpButton("answer[$i]", 'regex', 'qtype_regexmatch', '', true);
+            $mform->addHelpButton("answer[$i]", 'regex', 'qtype_regexmatchcloze', '', true);
             $mform->addHelpButton("options[$i]", 'options', 'qtype_regexmatch', '', true);
             $mform->addHelpButton("default-options[$i]", 'default_options', 'qtype_regexmatch', '', true);
         }

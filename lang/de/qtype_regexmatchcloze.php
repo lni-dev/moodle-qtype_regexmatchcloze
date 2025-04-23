@@ -24,20 +24,20 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 $string['pluginname'] = 'regexmatchcloze';
-$string['pluginname_help'] = 'Create a Regexmatch Cloze question type where every gap is defined through regular expressions.';
+$string['pluginname_help'] = 'Erstelle einen Regexmatch Lückentext Fragetypen. Bei dem jede Lücke durch reguläre Ausdrücke definiert werden kann';
 $string['pluginname_link'] = 'question/type/regexmatchcloze';
-$string['pluginnameadding'] = 'Adding a Regexmatch Cloze question';
-$string['pluginnameediting'] = 'Editing a Regexmatch Cloze question';
-$string['pluginnamesummary'] = 'A Regexmatch Cloze question allows defining every gaps through regular expressions.';
-$string['regex-number'] = 'Gap {$a}';
-$string['error-no-gaps'] = 'The question text must contain at least one gap ("[[1]]").';
-$string['error-no-such-gap'] = 'The corresponding gap does not exist in the question text.';
-$string['error-gap-not-defined'] = 'Gap {$a} is not defined below.';
-$string['gap-num'] = 'Gap {$a}:';
-$string['empty-answer'] = 'none';
-$string['empty-feedback'] = 'No feedback.';
+$string['pluginnameadding'] = 'Hinzufügen einer Regexmatch Lückentext Frage';
+$string['pluginnameediting'] = 'Bearbeiten einer Regexmatch Lückentext Frage';
+$string['pluginnamesummary'] = 'Der Regexmatch Lückentext ermöglicht es, jede Lücke durch reguläre Ausdrücke zu definieren';
+$string['regex-number'] = 'Lücke {$a}';
+$string['error-no-gaps'] = 'Der Fragetext muss mindestens eine Lücke enthalten ("[[1]]").';
+$string['error-no-such-gap'] = 'Die dazugehörige Lücke ist nicht im Fragetext enthalten.';
+$string['error-gap-not-defined'] = 'Die Lücke {$a} ist unten nicht definiert.';
+$string['gap-num'] = 'Lücke {$a}:';
+$string['empty-answer'] = 'leer';
+$string['empty-feedback'] = 'Kein Feedback.';
 $string['regex_help'] = /** @lang Markdown */
-    'The following syntax must be respected:
+    'Es muss die folgende Syntax eingehalten werden:
 ```
 [[regex]] /OPTIONS/
 %50 [[another regex with half the points]] /OPTIONS/
@@ -48,7 +48,7 @@ size=10
 feedback=text
 comment=text
 ```
-The following example matches `ls -la` (5 points) and `ls` (1 point). No extra options are enabled (only the default options are enabled):
+Das folgende Beispiel findet `ls -la` (5 Punkte) und `ls` (1 Punkt). Keine extra Optionen sind aktiviert (nur die Default-Optionen sind aktiviert):
 ```
 [[ls -la]]//
 %20 [[ls]]//

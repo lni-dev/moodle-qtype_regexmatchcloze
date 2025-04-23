@@ -106,8 +106,8 @@ class qtype_regexmatchcloze_question extends question_graded_automatically {
         $str = "";
         foreach ($this->answers as $answer) {
             $key = $answer->feedback;
-            $submittedAnswer = $response[$this->get_answer_field_name($answer)] ?? "none";
-            $str .= "Gap $key: $submittedAnswer\n"; // TODO lang string
+            $submittedAnswer = $response[$this->get_answer_field_name($answer)] ?? get_string('empty-answer', 'qtype_regexmatchcloze');
+            $str .= get_string('gap-num', 'qtype_regexmatchcloze', $key) . " $submittedAnswer\n";
         }
 
         return $str;

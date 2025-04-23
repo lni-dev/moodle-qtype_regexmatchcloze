@@ -81,25 +81,15 @@ class qtype_regexmatchcloze_renderer extends qtype_renderer {
     }
 
     public function specific_feedback(question_attempt $qa): string {
-        /* @var qtype_regexmatch_question $question */
+        /* @var qtype_regexmatchcloze_question $question */
         $question = $qa->get_question();
 
-        // The last answer, that the student entered (if any)
-        $currentanswer = $qa->get_last_qt_var('answer');
-
         $feedback = '';
-        if($currentanswer != null) {
-            $regex = $question->get_regex_for_answer($currentanswer);
 
-            if($regex != null) {
-                $feedback = $question->format_text(
-                    $regex->feedback,
-                    $regex->feedbackformat,
-                    $qa,
-                    'question', 'answerfeedback',
-                    $regex->id
-                );
-            }
+        foreach ($question->answers as $answer) {
+            $key = $answer->feedback; // index is stored in feedback
+            $currentanswer = $qa->get_last_qt_var($question->get_answer_field_name($answer)); // The last answer, that the student entered (if any)
+
         }
 
         return $feedback;

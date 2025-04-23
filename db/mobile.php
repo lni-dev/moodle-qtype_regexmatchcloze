@@ -29,7 +29,7 @@ $addons = [
             'regexmatchcloze' => [ // Handler unique name (can be anything).
                 'displaydata' => [
                     'title' => 'regexmatchcloze question',
-                    'icon' => '/question/type/regexmatchcloze/pix/icon.gif',
+                    'icon' => '/question/type/regexmatchcloze/pix/icon.png',
                     'class' => '',
                 ],
                 'delegate' => 'CoreQuestionDelegate', // Delegate (where to display the link to the add-on).
