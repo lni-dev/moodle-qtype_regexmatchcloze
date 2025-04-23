@@ -60,8 +60,12 @@ class qtype_regexmatchcloze_question extends question_graded_automatically {
 
     public function is_complete_response(array $response) {
         foreach ($this->answers as $answer) {
-            $submittedAnswer = $response[$this->get_answer_field_name($answer)] ?? null;
-            if($submittedAnswer === null)
+            if(!array_key_exists($this->get_answer_field_name($answer), $response)) {
+               return false;
+            }
+            $submittedAnswer = $response[$this->get_answer_field_name($answer)];
+
+            if($submittedAnswer === null || $submittedAnswer === '')
                 return false;
         }
         return true;
@@ -69,9 +73,14 @@ class qtype_regexmatchcloze_question extends question_graded_automatically {
 
     public function is_gradable_response(array $response) {
         foreach ($this->answers as $answer) {
-            $submittedAnswer = $response[$this->get_answer_field_name($answer)] ?? null;
-            if($submittedAnswer !== null)
+            if(!array_key_exists($this->get_answer_field_name($answer), $response)) {
+                continue;
+            }
+            $submittedAnswer = $response[$this->get_answer_field_name($answer)];
+
+            if($submittedAnswer !== null && $submittedAnswer !== '') {
                 return true;
+            }
         }
         return false;
     }

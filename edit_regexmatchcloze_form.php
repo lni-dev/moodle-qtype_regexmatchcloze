@@ -43,14 +43,14 @@ class qtype_regexmatchcloze_edit_form extends question_edit_form {
     protected function definition_inner($mform) {
         $this->add_per_answer_fields(
             $mform,
-            get_string('regex-number', 'qtype_regexmatchcloze', '{no}'),
+            get_string('gap-number', 'qtype_regexmatchcloze', '{no}'),
             question_bank::fraction_options()
         );
 
         // Add Help Button to the first to 5th answer text field
         // Add (?) / help button
         for ($i = 0; $i < 10; $i++) {
-            $mform->addHelpButton("answer[$i]", 'regex', 'qtype_regexmatchcloze', '', true);
+            $mform->addHelpButton("answer[$i]", 'gap-number', 'qtype_regexmatchcloze', '', true);
             $mform->addHelpButton("options[$i]", 'options', 'qtype_regexmatch', '', true);
             $mform->addHelpButton("default-options[$i]", 'default_options', 'qtype_regexmatch', '', true);
         }
@@ -103,6 +103,9 @@ class qtype_regexmatchcloze_edit_form extends question_edit_form {
         $max = -1;
         foreach ($matches['number'] as $number) {
             $max = max($max, $number);
+            if(array_key_exists($number, $gaps)) {
+                $errors['questiontext'] = get_string('error-duplicated-gap', 'qtype_regexmatchcloze', $number);
+            }
             $gaps[$number] = false;
         }
 

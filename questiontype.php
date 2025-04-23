@@ -116,9 +116,9 @@ class qtype_regexmatchcloze extends question_type {
 
     public function import_from_xml($data, $question, qformat_xml $format, $extra = null) {
         global $CFG;
-        require_once($CFG->dirroot.'/question/type/regexmatch/question.php');
+        require_once($CFG->dirroot.'/question/type/regexmatchcloze/question.php');
 
-        if (!isset($data['@']['type']) || $data['@']['type'] != 'question_regexmatch') {
+        if (!isset($data['@']['type']) || $data['@']['type'] != 'question_regexmatchcloze') {
             return false;
         }
 

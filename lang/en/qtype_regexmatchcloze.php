@@ -29,19 +29,20 @@ $string['pluginname_link'] = 'question/type/regexmatchcloze';
 $string['pluginnameadding'] = 'Adding a Regexmatch Cloze question';
 $string['pluginnameediting'] = 'Editing a Regexmatch Cloze question';
 $string['pluginnamesummary'] = 'A Regexmatch Cloze question allows defining every gaps through regular expressions.';
-$string['regex-number'] = 'Gap {$a}';
+$string['gap-number'] = 'Gap {$a}';
 $string['error-no-gaps'] = 'The question text must contain at least one gap ("[[1]]").';
+$string['error-duplicated-gap'] = 'The question text contains the gap [[{$a}]] twice.';
 $string['error-no-such-gap'] = 'The corresponding gap does not exist in the question text.';
 $string['error-gap-not-defined'] = 'Gap {$a} is not defined below.';
 $string['gap-num'] = 'Gap {$a}:';
 $string['empty-answer'] = 'none';
 $string['empty-feedback'] = 'No feedback.';
-$string['regex_help'] = /** @lang Markdown */
+$string['gap-number_help'] = /** @lang Markdown */
     'The following syntax must be respected:
 ```
 [[regex]] /OPTIONS/
-%50 [[another regex with half the points]] /OPTIONS/
-%10 [[another regex with 10% points]] /OPTIONS/
+%50 [[regex with 50% points]] /OPTIONS/
+%10 [[regex with 10% points]] /OPTIONS/
 separator=,
 points=5
 size=10
