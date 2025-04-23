@@ -1,6 +1,7 @@
 # Regexmatch Cloze
 
 ## TODO
+- test regex over multiple lines
 - test backup/restore
 - import/export to/from xml
 - usage examples + link in help button
