@@ -131,33 +131,67 @@ class qtype_regexmatchcloze_edit_form extends question_edit_form {
                     $errors["answer[$key]"] = get_string('dollarroofmustbeescaped', 'qtype_regexmatchcloze');
                 }
 
+                $remaining = preg_replace("/\\r/", "", $fromform['answer'][$key]);
+
                 //check syntax
-                if(preg_match('%^(\[\[.*\]\]\\n? *)+/[a-zA-Z]*/.*$%s', $fromform['answer'][$key]) != 1) {
+                if(preg_match('%^(\[\[.*\]\][ \\n]*)+/[a-zA-Z]*/([ \\n]*\\%[0-9]+[ \\n]*(\[\[.*\]\][ \\n]*)+/[a-zA-Z]*/[ \\n]*)*.*$%s', $remaining) != 1) {
                     $errors["answer[$key]"] = get_string('valerror_illegalsyntax', 'qtype_regexmatchcloze');
                 } else {
-                    if(preg_match("%]][ \\n]*/[a-zA-Z]*/%", $fromform['answer'][$key], $matches, PREG_OFFSET_CAPTURE)) {
-                        $index = intval($matches[0][1]);
 
-                        // Options E.g.: "OPTIONS"
-                        $options = substr($matches[0][0], 2); // first remove the "]]" at the beginning
-                        $options = trim($options); // Now trim all spaces at the beginning and end
-                        $options = substr($options, 1, strlen($options) - 2); // remove first and last "/"
+                    // First look for the options "]] /OPTIONS/"
+                    if(preg_match("%]][ \\n]*/[a-zA-Z]*/%", $remaining, $matches, PREG_OFFSET_CAPTURE)) {
+                        $first = true;
+                        do {
+                            if ($first) {
+                                $first = false;
+                                $percent = 100;
+                            } else {
 
-                        foreach (str_split($options) as $option) {
-                            $found = false;
-                            foreach (ALLOWED_OPTIONS as $allowed) {
-                                if ($option == $allowed) {
-                                    $found = true;
+                                if (!preg_match("%]][ \\n]*/[a-zA-Z]*/%", $remaining, $matches, PREG_OFFSET_CAPTURE)) {
+                                    //Invalid syntax.
+                                    $errors["answer[$key]"] = get_string('valerror_illegalsyntax', 'qtype_regexmatchcloze');
+                                    return $errors;
+                                }
+
+                                preg_match("/%[0-9]+/", $remaining, $percentMatch);
+                                $percent = substr($percentMatch[0], 1);
+                            }
+
+                            if($percent < 0 || $percent > 100) {
+                                $errors["answer[$key]"] = get_string('valerror_illegalpercentage', 'qtype_regexmatchcloze');
+                                return $errors;
+                            }
+
+                            $index = intval($matches[0][1]);
+
+                            // Options E.g.: "OPTIONS"
+                            $options = substr($matches[0][0], 2); // first remove the "]]" at the beginning
+                            $options = trim($options); // Now trim all spaces at the beginning and end
+                            $options = substr($options, 1, strlen($options) - 2); // remove first and last "/"
+
+                            foreach (str_split($options) as $option) {
+                                $found = false;
+                                foreach (REGEXMATCH_CLOZE_ALLOWED_OPTIONS as $allowed) {
+                                    if ($option == $allowed) {
+                                        $found = true;
+                                    }
+                                }
+
+                                if (!$found) {
+                                    $errors["answer[$key]"] =
+                                        get_string('valerror_illegaloption', 'qtype_regexmatchcloze', $option);
+                                    return $errors;
                                 }
                             }
 
-                            if(!$found) {
-                                $errors["answer[$key]"] = get_string('valerror_illegaloption', 'qtype_regexmatchcloze', $option);
-                            }
-                        }
+                            // Key Value pairs or more regexes (cloze)
+                            $remaining = substr($remaining, $index + strlen($matches[0][0]));
+                            $remaining = trim($remaining);
+
+                        } while (qtype_regexmatch_str_starts_with($remaining, "%"));
 
                         // Key Value pairs
-                        $keyValuePairs = substr($fromform['answer'][$key], $index + strlen($matches[0][0]));
+                        $keyValuePairs = $remaining;
                         $nextKey = 0;
                         foreach (preg_split("/\\n/", $keyValuePairs) as $keyValuePair) {
                             if(preg_match("/[a-z]+=/", $keyValuePair, $matches)) {
@@ -188,6 +222,7 @@ class qtype_regexmatchcloze_edit_form extends question_edit_form {
 
                             }
                         }
+
                     }
                 }
 

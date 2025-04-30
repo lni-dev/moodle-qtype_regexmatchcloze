@@ -142,3 +142,4 @@ $string['valerror_illegalsyntax'] = 'Illegal syntax.';
 $string['valerror_illegaloption'] = 'Illegal option "{$a}".';
 $string['valerror_illegalkeyorder'] = 'Illegal key order. Required order: {$a}.';
 $string['valerror_unkownkey'] = 'Unknown key "{$a}".';
+$string['valerror_illegalpercentage'] = 'Percentage must be between 0 and 100.';

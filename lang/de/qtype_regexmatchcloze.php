@@ -151,3 +151,4 @@ $string['valerror_illegalsyntax'] = 'Ungültige Syntax.';
 $string['valerror_illegaloption'] = 'Ungültige Option "{$a}".';
 $string['valerror_illegalkeyorder'] = 'Ungültige Schlüssel-Reihenfolge. Erforderliche Reihenfolge: {$a}.';
 $string['valerror_unkownkey'] = 'Unbekannter Schlüssel "{$a}".';
+$string['valerror_illegalpercentage'] = 'Prozentzahl muss zwischen 0 und 100 liegen.';

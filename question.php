@@ -34,8 +34,11 @@ defined('MOODLE_INTERNAL') || die();
 *state of a question as a student attempts it through a question_attempt instance.
 */
 
-require_once($CFG->dirroot . '/question/type/regexmatchcloze/common.php');
-const REGEXMATCH_CLOZE_ALLOWED_KEYS = array(SEPARATOR_KEY, POINTS_KEY, SIZE_KEY, FEEDBACK_KEY,  COMMENT_KEY);
+if (!class_exists('qtype_regexmatch_regex')) {
+    require_once($CFG->dirroot . '/question/type/regexmatchcloze/common/common.php');
+}
+const REGEXMATCH_CLOZE_ALLOWED_KEYS = array(QTYPE_REGEXMATCH_SEPARATOR_KEY, QTYPE_REGEXMATCH_POINTS_KEY, QTYPE_REGEXMATCH_SIZE_KEY, QTYPE_REGEXMATCH_FEEDBACK_KEY,  QTYPE_REGEXMATCH_COMMENT_KEY);
+const REGEXMATCH_CLOZE_ALLOWED_OPTIONS = array('I', 'D', 'P', 'R', 'O', 'S', 'T', 'i', 'd', 'p', 'r', 'o', 's', 't');
 
 /**
  * Represents a regexmatchcloze question.
@@ -181,7 +184,7 @@ class qtype_regexmatchcloze_question extends question_graded_automatically {
         $submittedAnswer = str_replace("\r", "", $submittedAnswer);
 
         foreach ($answer->regexes as $regex) {
-            $value = try_regex($answer, $regex, $submittedAnswer);
+            $value = qtype_regexmatch_try_regex($answer, $regex, $submittedAnswer);
 
             if($value > 0.0) {
                 $points = $answer->points * $value * ($regex->percent / 100.0);
