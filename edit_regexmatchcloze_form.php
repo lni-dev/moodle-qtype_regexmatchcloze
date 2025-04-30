@@ -51,8 +51,8 @@ class qtype_regexmatchcloze_edit_form extends question_edit_form {
         // Add (?) / help button
         for ($i = 0; $i < 10; $i++) {
             $mform->addHelpButton("answer[$i]", 'gap-number', 'qtype_regexmatchcloze', '', true);
-            $mform->addHelpButton("options[$i]", 'options', 'qtype_regexmatch', '', true);
-            $mform->addHelpButton("default-options[$i]", 'default_options', 'qtype_regexmatch', '', true);
+            $mform->addHelpButton("options[$i]", 'options', 'qtype_regexmatchcloze', '', true);
+            $mform->addHelpButton("default-options[$i]", 'default_options', 'qtype_regexmatchcloze', '', true);
         }
 
         $this->add_interactive_settings();
@@ -74,8 +74,8 @@ class qtype_regexmatchcloze_edit_form extends question_edit_form {
             array('size' => 1000, 'rows' => 7)
         );
 
-        $repeated[] = $mform->createElement('static', 'options', get_string('options', 'qtype_regexmatch'), 'I, D, P, R, O');
-        $repeated[] = $mform->createElement('static', 'default-options', get_string('default_options', 'qtype_regexmatch'), 'S, T');
+        $repeated[] = $mform->createElement('static', 'options', get_string('options', 'qtype_regexmatchcloze'), 'I, D, P, R, O');
+        $repeated[] = $mform->createElement('static', 'default-options', get_string('default_options', 'qtype_regexmatchcloze'), 'S, T');
 
         $repeatedoptions['answer']['type'] = PARAM_RAW;
         $answersoption = 'answers';
@@ -128,12 +128,12 @@ class qtype_regexmatchcloze_edit_form extends question_edit_form {
 
                 // check syntax
                 if(preg_match('/(?<!\\\\)(\\\\\\\\)*[$^]/', $fromform['answer'][$key]) == 1) {
-                    $errors["answer[$key]"] = get_string('dollarroofmustbeescaped', 'qtype_regexmatch');
+                    $errors["answer[$key]"] = get_string('dollarroofmustbeescaped', 'qtype_regexmatchcloze');
                 }
 
                 //check syntax
                 if(preg_match('%^(\[\[.*\]\]\\n? *)+/[a-zA-Z]*/.*$%s', $fromform['answer'][$key]) != 1) {
-                    $errors["answer[$key]"] = get_string('valerror_illegalsyntax', 'qtype_regexmatch');
+                    $errors["answer[$key]"] = get_string('valerror_illegalsyntax', 'qtype_regexmatchcloze');
                 } else {
                     if(preg_match("%]][ \\n]*/[a-zA-Z]*/%", $fromform['answer'][$key], $matches, PREG_OFFSET_CAPTURE)) {
                         $index = intval($matches[0][1]);
@@ -152,7 +152,7 @@ class qtype_regexmatchcloze_edit_form extends question_edit_form {
                             }
 
                             if(!$found) {
-                                $errors["answer[$key]"] = get_string('valerror_illegaloption', 'qtype_regexmatch', $option);
+                                $errors["answer[$key]"] = get_string('valerror_illegaloption', 'qtype_regexmatchcloze', $option);
                             }
                         }
 
@@ -179,9 +179,9 @@ class qtype_regexmatchcloze_edit_form extends question_edit_form {
                                         }
                                     }
                                     if($isAllowed) {
-                                        $errors["answer[$key]"] = get_string('valerror_illegalkeyorder', 'qtype_regexmatch', implode(', ', REGEXMATCH_CLOZE_ALLOWED_KEYS));
+                                        $errors["answer[$key]"] = get_string('valerror_illegalkeyorder', 'qtype_regexmatchcloze', implode(', ', REGEXMATCH_CLOZE_ALLOWED_KEYS));
                                     } else  {
-                                        $errors["answer[$key]"] = get_string('valerror_unkownkey', 'qtype_regexmatch', $match);
+                                        $errors["answer[$key]"] = get_string('valerror_unkownkey', 'qtype_regexmatchcloze', $match);
                                     }
 
                                 }

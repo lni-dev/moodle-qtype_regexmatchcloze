@@ -148,7 +148,7 @@ class qtype_regexmatchcloze extends question_type {
     }
 
     /**
-     * @param qtype_regexmatch_question $question
+     * @param qtype_regexmatchcloze_question $question
      * @param qformat_xml $format
      * @param $extra
      * @return string

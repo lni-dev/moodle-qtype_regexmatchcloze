@@ -100,3 +100,45 @@ The regex must be between double square brackets (\[\[\]\]). A short description
 
 The regex anchors "$" and "^" cannot be used. If they should be matched as literals, they can be escaped: "\\$", "\\^".
 ';
+$string['options'] = "Options";
+$string['default_options'] = "Default Options";
+$string['options_help'] = /** @lang Markdown */
+    'Some options may be set. Options must be placed at the end of the regex. Furthermore, they must start and end with
+a forward slash (`/`). For example: `/PI/`. Every option is enabled/disabled by a single letter. The options are described below.
+
+**I: Ignore Case**<br>
+The regular expression will ignore case.
+
+**D: Dot All**<br>
+All Dots (`.`) in the regular expression will also match new lines.
+
+**P: Pipes and Semicolons**<br>
+This is a shell specific option. All semicolons `;` and escaped pipes `\|` will be replaced with `([ \t]*[;\n][ \t]*)`
+and `([ \t]*\|[ \t]*)` respectively. Thereby infinite spaces are allowed around these and the semicolon
+will also match a new line. Note: Any spaces in front and after the pipe inside the regex, must also be contained in the answer.
+
+**R: Redirects**<br>
+This is a shell specific option. All redirections (`<`,`>`,`<<`,`>>`) will be replaced for example with `([ \t]*<[ \t]*)`.
+If enabled redirections cannot be used in other regex-functions (eg.: lookbehind `(?<=...)`). Note: Any spaces in front
+and after the redirect inside the regex, must also be contained in the answer.
+
+**O: Match Any Order**<br>
+The regex must consist of multiple regexes (`[[regex1]] [[regex2]]`).
+The answers (separated by the value of the key `separator=`. New line by default.) must match any of the regexes, but order is not important.
+Each regex can only be matched by a single answer. The calculation of points can be found [here](https://github.com/lni-dev/moodle-qtype_regexmatch/blob/master/usage-examples.md#evaluation).
+';
+$string['default_options_help'] = /** @lang Markdown */
+    'These options are enabled by default and can be disabled by specifying the corresponding letter.
+
+**S: Infinite Space**<br>
+All Spaces will be replaced with `([ \t]+)`. Thereby they match one or more whitespace characters.
+
+**T: Trim Spaces**<br>
+All trailing and leading empty lines in the answer, as well as all trailing and leading
+spaces of every line in the answer, will be ignored. Trailing empty lines will always be
+ignored, even if this option is disabled.';
+$string['dollarroofmustbeescaped'] = 'The regex anchors "$" and "^" cannot be used. If they should be matched as literals, they can be escaped: "\\$", "\\^"';
+$string['valerror_illegalsyntax'] = 'Illegal syntax.';
+$string['valerror_illegaloption'] = 'Illegal option "{$a}".';
+$string['valerror_illegalkeyorder'] = 'Illegal key order. Required order: {$a}.';
+$string['valerror_unkownkey'] = 'Unknown key "{$a}".';

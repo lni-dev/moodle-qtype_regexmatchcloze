@@ -104,3 +104,50 @@ Hier ist eine kurze Beschreibung der wichtigsten regex Funktionen:
 Die Regex Anker "$" und "^" können nicht verwendet werden. Falls diese als Literal gesucht werden
 sollen, können sie escaped werden: "\$", "\^".
 ';
+$string['options'] = "Options";
+$string['default_options'] = "Default Options";
+$string['options_help'] = /** @lang Markdown */
+    'Einige Optionen können aktiviert/deaktiviert werden. 
+Diese müssen mit einem Schrägstrich (`/`) anfangen und enden. Zum Beispiel: `/PI/`. Jede Option wird durch einen
+einzigen großen Buchstaben aktiviert und durch einen kleinen Buchstaben deaktiviert.
+
+**I: Ignoriere Groß-/Kleinschreibung**<br>
+Der reguläre Ausdruck wird Groß- und Kleinschreibung ignorieren.
+
+**D: Punkt findet alles**<br>
+Alle Punkte (`.`) in dem regulären Ausdruck werden auch Zeilenumbrüche finden.
+
+**P: Semikolons und Pipes**<br>
+Shell spezifisch: Alle Semikolons `;` und maskierte Pipes `\|` werden jeweils
+durch `([ \t]*[;\n][ \t]*)` und `([ \t]*\|[ \t]*)` ersetzt.
+Dadurch finden diese beliebige viele Leerzeichen vor und nach dem Semikolon oder der Pipe.
+Zusätzlich kann das Semikolon auch eine Leerzeile finden. Note: Alle Leerzeichen vor und nach
+der Pipe / dem Semikolon im Regulären Ausdruck müssen auch innerhalb der Antwort vorkommen.
+
+**R: Umleitungen**<br>
+Shell spezifisch: Alle Umleitungen (`<`, `>`, `<<`, `>>`) werden durch z.B. `([ \t]*<[ \t]*)` ersetzt.
+Wenn aktiviert können diese Zeichen nicht mehr in anderen Regex-Funktionen verwendet werden (Z.B.: Lookbehind:
+`(?<=...)`). Note: Alle Leerzeichen vor und nach der Umleitung im Regulären Ausdruck müssen auch innerhalb
+der Antwort vorkommen.
+
+**O: Beliebige Reihenfolge**<br>
+Der reguläre Ausdruck sollte aus mindestens zwei regulären Ausdrucken bestehen (`[[regex1]] [[regex2]]`), da bei nur einem regulären Ausdruck die Option nicht verändert.
+Die Antworten (Von dem Wert des Schlüssels `separator=` getrennt. Standardmäßig ein Zeilenumbruch.) müssen von einem der regulären Ausdrücke gefunden werden, die 
+Reihenfolge ist allerdings egal. Jeder regulärer Ausdruck kann nur einmal gefunden werden. Es werden auch Teilmengen gefunden, die Teilpunkte geben. Genaue Berechnung der
+Punktzahl findet sich [hier](https://github.com/lni-dev/moodle-qtype_regexmatch/blob/master/usage-examples.md#evaluation).
+';
+$string['default_options_help'] = /** @lang Markdown */
+    'Die folgenden Optionen sind standardmäßig aktiviert und können durch Angabe des jeweiligen (kleinen) Buchstaben deaktiviert werden.
+
+**s: Beliebig Viele Leerzeichen**<br>
+Alle Leerzeichen innerhalb des Ausdrucks werden mit `([ \t]+)` ersetzt. Dadurch finden diese ein oder mehr Whitespace Charakter.
+
+**t: Leerzeichen Trimmen**<br>
+Leerzeilen zu Beginn und am Ende der Antwort, sowie Leerzeichen zu Beginn und am Ende jeder Zeile 
+der Antwort, werden ignoriert. Leerzeilen am Ende der Antwort werden immer ignoriert, egal ob diese
+Option aktiviert ist oder nicht.';
+$string['dollarroofmustbeescaped'] = 'Die Regex Anker "$" und "^" können nicht verwendet werden. Falls diese als Literal gesucht werden sollen, können sie escaped werden: "\\$", "\\^"';
+$string['valerror_illegalsyntax'] = 'Ungültige Syntax.';
+$string['valerror_illegaloption'] = 'Ungültige Option "{$a}".';
+$string['valerror_illegalkeyorder'] = 'Ungültige Schlüssel-Reihenfolge. Erforderliche Reihenfolge: {$a}.';
+$string['valerror_unkownkey'] = 'Unbekannter Schlüssel "{$a}".';
