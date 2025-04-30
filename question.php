@@ -34,7 +34,7 @@ defined('MOODLE_INTERNAL') || die();
 *state of a question as a student attempts it through a question_attempt instance.
 */
 
-require_once($CFG->dirroot . '/question/type/regexmatch/question.php');
+require_once($CFG->dirroot . '/question/type/regexmatchcloze/common.php');
 const REGEXMATCH_CLOZE_ALLOWED_KEYS = array(SEPARATOR_KEY, POINTS_KEY, SIZE_KEY, FEEDBACK_KEY,  COMMENT_KEY);
 
 /**

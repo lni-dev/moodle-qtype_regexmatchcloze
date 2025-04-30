@@ -34,7 +34,7 @@ defined('MOODLE_INTERNAL') || die();
 require_once($CFG->libdir . '/questionlib.php');
 require_once($CFG->dirroot . '/question/engine/lib.php');
 require_once($CFG->dirroot . '/question/type/regexmatchcloze/question.php');
-require_once($CFG->dirroot . '/question/type/regexmatch/question.php');
+require_once($CFG->dirroot . '/question/type/regexmatchcloze/common.php');
 
 /**
  * The regexmatchcloze question type.
