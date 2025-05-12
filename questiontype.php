@@ -82,8 +82,8 @@ class qtype_regexmatchcloze extends question_type {
         return null;
     }
 
-    protected function make_answer($answer): qtype_regexmatch_answer {
-        return new qtype_regexmatch_answer(
+    protected function make_answer($answer): qtype_regexmatch_common_answer {
+        return new qtype_regexmatch_common_answer(
             $answer->id,
             $answer->answer,
             $answer->fraction,
@@ -111,6 +111,16 @@ class qtype_regexmatchcloze extends question_type {
     protected function initialise_question_instance(question_definition $question, $questiondata) {
         parent::initialise_question_instance($question, $questiondata);
         $this->initialise_question_answers($question, $questiondata);
+
+        /**
+         * @var qtype_regexmatchcloze_question $q
+         */
+        $q = $question;
+        $maxPoints = 0;
+        foreach ($q->answers as $answer) {
+            $maxPoints += $answer->points;
+        }
+        $question->defaultmark = $maxPoints;
     }
 
     public function import_from_xml($data, $question, qformat_xml $format, $extra = null) {

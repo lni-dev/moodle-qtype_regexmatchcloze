@@ -34,7 +34,7 @@ defined('MOODLE_INTERNAL') || die();
 *state of a question as a student attempts it through a question_attempt instance.
 */
 
-if (!class_exists('qtype_regexmatch_regex')) {
+if (!class_exists('qtype_regexmatch_common_regex')) {
     require_once($CFG->dirroot . '/question/type/regexmatchcloze/common/common.php');
 }
 const REGEXMATCH_CLOZE_ALLOWED_KEYS = array(QTYPE_REGEXMATCH_SEPARATOR_KEY, QTYPE_REGEXMATCH_POINTS_KEY, QTYPE_REGEXMATCH_SIZE_KEY, QTYPE_REGEXMATCH_FEEDBACK_KEY,  QTYPE_REGEXMATCH_COMMENT_KEY);
@@ -50,7 +50,7 @@ const REGEXMATCH_CLOZE_ALLOWED_OPTIONS = array('I', 'D', 'P', 'R', 'O', 'S', 'T'
 class qtype_regexmatchcloze_question extends question_graded_automatically {
 
     /**
-     * @var array<qtype_regexmatch_answer> array containing all the allowed regexes
+     * @var array<qtype_regexmatch_common_answer> array containing all the allowed regexes
      */
     public $answers = array();
 
@@ -169,7 +169,7 @@ class qtype_regexmatchcloze_question extends question_graded_automatically {
         }
     }
 
-    public function get_answer_field_name(qtype_regexmatch_answer $answer) {
+    public function get_answer_field_name(qtype_regexmatch_common_answer $answer) {
         return "gap" . $answer->feedback;
     }
 
@@ -177,14 +177,14 @@ class qtype_regexmatchcloze_question extends question_graded_automatically {
      * @param string $submittedAnswer answer submitted from a student
      * @return array|null [0] => points, [1] => regex. regex of given $answer, which matches given answer or null if none matches
      */
-    private function get_regex_for_answer(qtype_regexmatch_answer $answer, string $submittedAnswer) {
+    private function get_regex_for_answer(qtype_regexmatch_common_answer $answer, string $submittedAnswer) {
         $ret = null;
 
         // remove \r from the answer, which should not be matched.
         $submittedAnswer = str_replace("\r", "", $submittedAnswer);
 
         foreach ($answer->regexes as $regex) {
-            $value = qtype_regexmatch_try_regex($answer, $regex, $submittedAnswer);
+            $value = qtype_regexmatch_common_try_regex($answer, $regex, $submittedAnswer);
 
             if($value > 0.0) {
                 $points = $answer->points * $value * ($regex->percent / 100.0);

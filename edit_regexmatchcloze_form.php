@@ -41,6 +41,9 @@ class qtype_regexmatchcloze_edit_form extends question_edit_form {
      * @param MoodleQuickForm $mform
      */
     protected function definition_inner($mform) {
+        
+        $mform->removeElement('defaultmark', true);
+
         $this->add_per_answer_fields(
             $mform,
             get_string('gap-number', 'qtype_regexmatchcloze', '{no}'),
@@ -95,9 +98,7 @@ class qtype_regexmatchcloze_edit_form extends question_edit_form {
 
         $questionText = $fromform['questiontext']['text'];
 
-        if(preg_match_all("/\[\[(?P<number>[0-9]+)\]\]/", $questionText, $matches)) {
-            print_r($matches);
-        }
+        preg_match_all("/\[\[(?P<number>[0-9]+)\]\]/", $questionText, $matches);
 
         $gaps = array();
         $max = -1;
@@ -188,7 +189,7 @@ class qtype_regexmatchcloze_edit_form extends question_edit_form {
                             $remaining = substr($remaining, $index + strlen($matches[0][0]));
                             $remaining = trim($remaining);
 
-                        } while (qtype_regexmatch_str_starts_with($remaining, "%"));
+                        } while (qtype_regexmatch_common_str_starts_with($remaining, "%"));
 
                         // Key Value pairs
                         $keyValuePairs = $remaining;
