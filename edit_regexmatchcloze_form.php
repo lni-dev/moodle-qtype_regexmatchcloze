@@ -41,7 +41,7 @@ class qtype_regexmatchcloze_edit_form extends question_edit_form {
      * @param MoodleQuickForm $mform
      */
     protected function definition_inner($mform) {
-        
+
         $mform->removeElement('defaultmark', true);
 
         $this->add_per_answer_fields(
@@ -127,11 +127,6 @@ class qtype_regexmatchcloze_edit_form extends question_edit_form {
                 $gaps[$key+1] = true;
 
 
-                // check syntax
-                if(preg_match('/(?<!\\\\)(\\\\\\\\)*[$^]/', $fromform['answer'][$key]) == 1) {
-                    $errors["answer[$key]"] = get_string('dollarroofmustbeescaped', 'qtype_regexmatchcloze');
-                }
-
                 $remaining = preg_replace("/\\r/", "", $fromform['answer'][$key]);
 
                 //check syntax
@@ -156,6 +151,7 @@ class qtype_regexmatchcloze_edit_form extends question_edit_form {
 
                                 preg_match("/%[0-9]+/", $remaining, $percentMatch);
                                 $percent = substr($percentMatch[0], 1);
+                                $percentOffset = strlen($percentMatch[0]);
                             }
 
                             if($percent < 0 || $percent > 100) {
@@ -164,6 +160,15 @@ class qtype_regexmatchcloze_edit_form extends question_edit_form {
                             }
 
                             $index = intval($matches[0][1]);
+
+                            // Regexes without the last "]]". E.g.: [[regex1]] [[regex2
+                            $regularExpressions = substr($remaining, $percentOffset, $index - $percentOffset);
+                            $regularExpressions = trim($regularExpressions); // Now trim all spaces at the beginning and end
+                            $regularExpressions = substr($regularExpressions, 2); // remove the starting "[["
+
+                            if(preg_match('/(?<!\\\\)(\\\\\\\\)*[$^]/', $regularExpressions) == 1) {
+                                $errors["answer[$key]"] = get_string('dollarroofmustbeescaped', 'qtype_regexmatchcloze');
+                            }
 
                             // Options E.g.: "OPTIONS"
                             $options = substr($matches[0][0], 2); // first remove the "]]" at the beginning
