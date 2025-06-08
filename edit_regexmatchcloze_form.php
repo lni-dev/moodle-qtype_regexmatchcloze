@@ -202,6 +202,11 @@ class qtype_regexmatchcloze_edit_form extends question_edit_form {
                         foreach (preg_split("/\\n/", $keyValuePairs) as $keyValuePair) {
                             if(preg_match("/[a-z]+=/", $keyValuePair, $matches)) {
                                 $match = $matches[0];
+
+                                if($match === QTYPE_REGEXMATCH_POINTS_KEY) {
+                                     // TODO: check value of points. It must not contain anything expect numbers
+                                }
+
                                 $found = false;
                                 for (; $nextKey < count(REGEXMATCH_CLOZE_ALLOWED_KEYS); $nextKey++) {
                                     if($match == REGEXMATCH_CLOZE_ALLOWED_KEYS[$nextKey]) {
