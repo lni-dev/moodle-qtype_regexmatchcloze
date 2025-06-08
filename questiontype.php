@@ -116,7 +116,7 @@ class qtype_regexmatchcloze extends question_type {
          * @var qtype_regexmatchcloze_question $q
          */
         $q = $question;
-        $maxPoints = 0;
+        $maxPoints = 0.0;
         foreach ($q->answers as $answer) {
             $maxPoints += $answer->points;
         }

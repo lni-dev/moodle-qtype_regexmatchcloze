@@ -131,8 +131,8 @@ class qtype_regexmatchcloze_question extends question_graded_automatically {
 
     public function grade_response(array $response) {
 
-        $maxPoints = 0;
-        $userPoints = 0;
+        $maxPoints = 0.0;
+        $userPoints = 0.0;
         foreach ($this->answers as $answer) {
             $maxPoints += $answer->points;
             $submittedAnswer = $response[$this->get_answer_field_name($answer)] ?? null;

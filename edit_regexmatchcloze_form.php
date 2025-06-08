@@ -141,6 +141,7 @@ class qtype_regexmatchcloze_edit_form extends question_edit_form {
                             if ($first) {
                                 $first = false;
                                 $percent = 100;
+                                $percentOffset = 0;
                             } else {
 
                                 if (!preg_match("%]][ \\n]*/[a-zA-Z]*/%", $remaining, $matches, PREG_OFFSET_CAPTURE)) {
@@ -198,42 +199,49 @@ class qtype_regexmatchcloze_edit_form extends question_edit_form {
 
                         // Key Value pairs
                         $keyValuePairs = $remaining;
-                        $nextKey = 0;
-                        foreach (preg_split("/\\n/", $keyValuePairs) as $keyValuePair) {
-                            if(preg_match("/[a-z]+=/", $keyValuePair, $matches)) {
-                                $match = $matches[0];
 
-                                if($match === QTYPE_REGEXMATCH_POINTS_KEY) {
-                                     // TODO: check value of points. It must not contain anything expect numbers
-                                }
+                        if($keyValuePairs != '') {
+                            $nextKey = 0;
+                            foreach (preg_split("/\\n/", $keyValuePairs) as $keyValuePair) {
+                                if(preg_match("/^[a-z]+=/", $keyValuePair, $matches)) {
+                                    $match = $matches[0];
+                                    $value = substr($keyValuePair, strlen($match));
 
-                                $found = false;
-                                for (; $nextKey < count(REGEXMATCH_CLOZE_ALLOWED_KEYS); $nextKey++) {
-                                    if($match == REGEXMATCH_CLOZE_ALLOWED_KEYS[$nextKey]) {
-                                        $found = true;
-                                        break;
+                                    if($match === QTYPE_REGEXMATCH_POINTS_KEY) {
+                                        if(preg_match("/(^0(\?)*$)|([^0-9.])/", $value)) {
+                                            $errors["answer[$key]"] = "points must be a non zero number.";
+                                        }
                                     }
-                                }
 
-                                if(!$found) {
-                                    $isAllowed = false;
-                                    foreach (REGEXMATCH_CLOZE_ALLOWED_KEYS as $allowed) {
-                                        if ($allowed == $match) {
-                                            $isAllowed = true;
+                                    $found = false;
+                                    for (; $nextKey < count(REGEXMATCH_CLOZE_ALLOWED_KEYS); $nextKey++) {
+                                        if($match == REGEXMATCH_CLOZE_ALLOWED_KEYS[$nextKey]) {
+                                            $found = true;
                                             break;
                                         }
                                     }
-                                    if($isAllowed) {
-                                        $errors["answer[$key]"] = get_string('valerror_illegalkeyorder', 'qtype_regexmatchcloze', implode(', ', REGEXMATCH_CLOZE_ALLOWED_KEYS));
-                                    } else  {
-                                        $errors["answer[$key]"] = get_string('valerror_unkownkey', 'qtype_regexmatchcloze', $match);
+
+                                    if(!$found) {
+                                        $isAllowed = false;
+                                        foreach (REGEXMATCH_CLOZE_ALLOWED_KEYS as $allowed) {
+                                            if ($allowed == $match) {
+                                                $isAllowed = true;
+                                                break;
+                                            }
+                                        }
+                                        if($isAllowed) {
+                                            $errors["answer[$key]"] = get_string('valerror_illegalkeyorder', 'qtype_regexmatchcloze', implode(', ', REGEXMATCH_CLOZE_ALLOWED_KEYS));
+                                        } else  {
+                                            $errors["answer[$key]"] = get_string('valerror_unkownkey', 'qtype_regexmatchcloze', $match);
+                                        }
+
                                     }
 
+                                } else {
+                                    $errors["answer[$key]"] = "illegal syntax: '$keyValuePair'";
                                 }
-
                             }
                         }
-
                     }
                 }
 
