@@ -84,9 +84,11 @@ class qtype_regexmatchcloze_renderer extends qtype_renderer {
         /* @var qtype_regexmatchcloze_question $question */
         $question = $qa->get_question();
 
+
         $feedback = '';
 
         foreach ($question->answers as $answer) {
+            $submittedAnswer = $qa->get_last_qt_var($question->get_answer_field_name($answer));
             $key = $answer->feedback; // index is stored in feedback
             $feedback .= get_string('gap-num', 'qtype_regexmatchcloze', $key) . " " . $answer->feedbackValue . "<br>";
         }
