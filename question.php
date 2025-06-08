@@ -177,7 +177,7 @@ class qtype_regexmatchcloze_question extends question_graded_automatically {
      * @param string $submittedAnswer answer submitted from a student
      * @return array|null [0] => points, [1] => regex. regex of given $answer, which matches given answer or null if none matches
      */
-    private function get_regex_for_answer(qtype_regexmatch_common_answer $answer, string $submittedAnswer) {
+    public function get_regex_for_answer(qtype_regexmatch_common_answer $answer, string $submittedAnswer) {
         $ret = null;
 
         // remove \r from the answer, which should not be matched.
@@ -195,5 +195,18 @@ class qtype_regexmatchcloze_question extends question_graded_automatically {
         }
 
         return $ret;
+    }
+
+    /**
+     * @param string $submittedAnswer answer submitted from a student
+     * @return question_state  question_state::$gradedwrong, question_state::$gradedright or question_state::$gradedpartial.
+     */
+    public function get_question_state_for_answer(qtype_regexmatch_common_answer $answer, string $submittedAnswer) {
+        $ret = $this->get_regex_for_answer($answer, $submittedAnswer);
+        if($ret == null || $ret[0] == 0)
+            return question_state::$gradedwrong;
+        else if($ret[0] == $answer->points)
+            return question_state::$gradedright;
+        return question_state::$gradedpartial;
     }
 }

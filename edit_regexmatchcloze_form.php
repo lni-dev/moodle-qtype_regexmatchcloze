@@ -205,11 +205,11 @@ class qtype_regexmatchcloze_edit_form extends question_edit_form {
                             foreach (preg_split("/\\n/", $keyValuePairs) as $keyValuePair) {
                                 if(preg_match("/^[a-z]+=/", $keyValuePair, $matches)) {
                                     $match = $matches[0];
-                                    $value = substr($keyValuePair, strlen($match));
+                                    $value = trim(substr($keyValuePair, strlen($match)));
 
                                     if($match === QTYPE_REGEXMATCH_POINTS_KEY) {
                                         if(preg_match("/(^0(\?)*$)|([^0-9.])/", $value)) {
-                                            $errors["answer[$key]"] = "points must be a non zero number.";
+                                            $errors["answer[$key]"] = get_string('valerror_pointsmustbenum', 'qtype_regexmatchcloze');
                                         }
                                     }
 
@@ -238,7 +238,7 @@ class qtype_regexmatchcloze_edit_form extends question_edit_form {
                                     }
 
                                 } else {
-                                    $errors["answer[$key]"] = "illegal syntax: '$keyValuePair'";
+                                    $errors["answer[$key]"] = get_string('valerror_illegalsyntaxspecific', 'qtype_regexmatchcloze', $keyValuePair);
                                 }
                             }
                         }

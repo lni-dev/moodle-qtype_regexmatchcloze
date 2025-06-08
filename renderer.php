@@ -63,7 +63,17 @@ class qtype_regexmatchcloze_renderer extends qtype_renderer {
             $inputAttributes['value'] = $currentanswer;
             $inputAttributes['id'] = $inputname;
             $inputAttributes['size'] = $answer->size;
-            $input = html_writer::empty_tag('input', $inputAttributes);
+
+            $feedbackimage = '';
+            if ($options->correctness) {
+                $submittedAnswer = $qa->get_last_qt_var($question->get_answer_field_name($answer));
+                $qs = $question->get_question_state_for_answer($answer, $submittedAnswer);
+                $feedbackclass = $qs->get_feedback_class();
+                $inputAttributes['class'] .= ' ' . $feedbackclass;
+                $feedbackimage = $this->output->pix_icon('i/grade_' . $feedbackclass, get_string($feedbackclass, 'question'));;
+            }
+
+            $input = html_writer::empty_tag('input', $inputAttributes) . $feedbackimage;
             $questiontext = str_replace("[[$key]]", $input, $questiontext);
         }
 
@@ -89,8 +99,13 @@ class qtype_regexmatchcloze_renderer extends qtype_renderer {
 
         foreach ($question->answers as $answer) {
             $submittedAnswer = $qa->get_last_qt_var($question->get_answer_field_name($answer));
+            $res = $question->get_regex_for_answer($answer, $submittedAnswer);
+
+            if($res == null)
+                $res = array('0');
+
             $key = $answer->feedback; // index is stored in feedback
-            $feedback .= get_string('gap-num', 'qtype_regexmatchcloze', $key) . " " . $answer->feedbackValue . "<br>";
+            $feedback .= get_string('gap-num', 'qtype_regexmatchcloze', $key . " ($res[0]/$answer->points)") . ' ' . $answer->feedbackValue . "<br>";
         }
 
         return $feedback;
