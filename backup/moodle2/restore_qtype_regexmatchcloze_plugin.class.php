@@ -17,7 +17,7 @@
 /**
  * @package    moodlecore
  * @subpackage backup-moodle2
- * @copyright  2010 onwards Eloy Lafuente (stronk7) {@link http://stronk7.com}
+ * @copyright  2025 Linus Andera (linus@linusdev.de)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -28,8 +28,8 @@ defined('MOODLE_INTERNAL') || die();
 class restore_qtype_regexmatchcloze_plugin extends restore_qtype_extrafields_plugin {
 
     /**
-     * Process the qtype/regexmatch element
+     * Process the qtype/regexmatchcloze element
      */
-    public function process_regexmatch($data) {
+    public function process_regexmatchcloze($data) {
     }
 }
