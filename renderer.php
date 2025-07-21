@@ -105,7 +105,7 @@ class qtype_regexmatchcloze_renderer extends qtype_renderer {
                 $res = array('0');
 
             $key = $answer->feedback; // index is stored in feedback
-            $feedback .= get_string('gap-num', 'qtype_regexmatchcloze', $key . " ($res[0]/$answer->points)") . ' ' . $answer->feedbackValue . "<br>";
+            $feedback .= get_string('gap-num', 'qtype_regexmatchcloze', $key . " ($res[0]/$answer->points)") . ' ' . $answer->feedbackvalue . "<br>";
         }
 
         return $feedback;

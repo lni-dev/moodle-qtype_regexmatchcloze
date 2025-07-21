@@ -178,7 +178,7 @@ class qtype_regexmatchcloze_edit_form extends question_edit_form {
 
                             foreach (str_split($options) as $option) {
                                 $found = false;
-                                foreach (REGEXMATCH_CLOZE_ALLOWED_OPTIONS as $allowed) {
+                                foreach (QTYPE_REGEXMATCH_CLOZE_ALLOWED_OPTIONS as $allowed) {
                                     if ($option == $allowed) {
                                         $found = true;
                                     }
@@ -207,15 +207,15 @@ class qtype_regexmatchcloze_edit_form extends question_edit_form {
                                     $match = $matches[0];
                                     $value = trim(substr($keyValuePair, strlen($match)));
 
-                                    if($match === QTYPE_REGEXMATCH_POINTS_KEY) {
+                                    if($match === QTYPE_REGEXMATCH_COMMON_POINTS_KEY) {
                                         if(preg_match("/(^0(\?)*$)|([^0-9.])/", $value)) {
                                             $errors["answer[$key]"] = get_string('valerror_pointsmustbenum', 'qtype_regexmatchcloze');
                                         }
                                     }
 
                                     $found = false;
-                                    for (; $nextKey < count(REGEXMATCH_CLOZE_ALLOWED_KEYS); $nextKey++) {
-                                        if($match == REGEXMATCH_CLOZE_ALLOWED_KEYS[$nextKey]) {
+                                    for (; $nextKey < count(QTYPE_REGEXMATCH_CLOZE_ALLOWED_KEYS); $nextKey++) {
+                                        if($match == QTYPE_REGEXMATCH_CLOZE_ALLOWED_KEYS[$nextKey]) {
                                             $found = true;
                                             break;
                                         }
@@ -223,14 +223,14 @@ class qtype_regexmatchcloze_edit_form extends question_edit_form {
 
                                     if(!$found) {
                                         $isAllowed = false;
-                                        foreach (REGEXMATCH_CLOZE_ALLOWED_KEYS as $allowed) {
+                                        foreach (QTYPE_REGEXMATCH_CLOZE_ALLOWED_KEYS as $allowed) {
                                             if ($allowed == $match) {
                                                 $isAllowed = true;
                                                 break;
                                             }
                                         }
                                         if($isAllowed) {
-                                            $errors["answer[$key]"] = get_string('valerror_illegalkeyorder', 'qtype_regexmatchcloze', implode(', ', REGEXMATCH_CLOZE_ALLOWED_KEYS));
+                                            $errors["answer[$key]"] = get_string('valerror_illegalkeyorder', 'qtype_regexmatchcloze', implode(', ', QTYPE_REGEXMATCH_CLOZE_ALLOWED_KEYS));
                                         } else  {
                                             $errors["answer[$key]"] = get_string('valerror_unkownkey', 'qtype_regexmatchcloze', $match);
                                         }

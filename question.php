@@ -37,8 +37,8 @@ defined('MOODLE_INTERNAL') || die();
 if (!class_exists('qtype_regexmatch_common_regex')) {
     require_once($CFG->dirroot . '/question/type/regexmatchcloze/common/common.php');
 }
-const REGEXMATCH_CLOZE_ALLOWED_KEYS = array(QTYPE_REGEXMATCH_SEPARATOR_KEY, QTYPE_REGEXMATCH_POINTS_KEY, QTYPE_REGEXMATCH_SIZE_KEY, QTYPE_REGEXMATCH_FEEDBACK_KEY,  QTYPE_REGEXMATCH_COMMENT_KEY);
-const REGEXMATCH_CLOZE_ALLOWED_OPTIONS = array('I', 'D', 'P', 'R', 'O', 'S', 'T', 'i', 'd', 'p', 'r', 'o', 's', 't');
+const QTYPE_REGEXMATCH_CLOZE_ALLOWED_KEYS = array(QTYPE_REGEXMATCH_COMMON_SEPARATOR_KEY, QTYPE_REGEXMATCH_COMMON_POINTS_KEY, QTYPE_REGEXMATCH_COMMON_SIZE_KEY, QTYPE_REGEXMATCH_COMMON_FEEDBACK_KEY,  QTYPE_REGEXMATCH_COMMON_COMMENT_KEY);
+const QTYPE_REGEXMATCH_CLOZE_ALLOWED_OPTIONS = array('I', 'D', 'P', 'R', 'O', 'S', 'T', 'i', 'd', 'p', 'r', 'o', 's', 't');
 
 /**
  * Represents a regexmatchcloze question.
