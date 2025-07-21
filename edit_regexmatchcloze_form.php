@@ -165,6 +165,15 @@ class qtype_regexmatchcloze_edit_form extends question_edit_form {
                             // Regexes without the last "]]". E.g.: [[regex1]] [[regex2
                             $regularExpressions = substr($remaining, $percentOffset, $index - $percentOffset);
                             $regularExpressions = trim($regularExpressions); // Now trim all spaces at the beginning and end
+                            if(!qtype_regexmatch_common_str_starts_with($regularExpressions, '[[')) {
+                                $a = array(
+                                    'context' => substr($remaining, 0, $index - $percentOffset),
+                                    'actual' => substr($regularExpressions, 0, 1),
+                                    'expected' => '[['
+                                );
+                                $errors["answer[$key]"] = get_string('valerror_illegalchar', 'qtype_regexmatchcloze', $a);
+
+                            }
                             $regularExpressions = substr($regularExpressions, 2); // remove the starting "[["
 
                             if(preg_match('/(?<!\\\\)(\\\\\\\\)*[$^]/', $regularExpressions) == 1) {
@@ -203,13 +212,22 @@ class qtype_regexmatchcloze_edit_form extends question_edit_form {
                         if($keyValuePairs != '') {
                             $nextKey = 0;
                             foreach (preg_split("/\\n/", $keyValuePairs) as $keyValuePair) {
+                                if(trim($keyValuePair) == '') {
+                                    continue;
+                                }
                                 if(preg_match("/^[a-z]+=/", $keyValuePair, $matches)) {
                                     $match = $matches[0];
                                     $value = trim(substr($keyValuePair, strlen($match)));
 
                                     if($match === QTYPE_REGEXMATCH_COMMON_POINTS_KEY) {
-                                        if(preg_match("/(^0(\?)*$)|([^0-9.])/", $value)) {
+                                        if(!preg_match("/(^0+\\.[1-9][0-9]*$)|(^0*[1-9][0-9]*(\\.[0-9]+)?$)/", $value)) {
                                             $errors["answer[$key]"] = get_string('valerror_pointsmustbenum', 'qtype_regexmatchcloze');
+                                        }
+                                    }
+
+                                    if($match === QTYPE_REGEXMATCH_COMMON_SIZE_KEY) {
+                                        if(!preg_match("/(^0*[1-9][0-9]*$)/", $value)) {
+                                            $errors["answer[$key]"] = get_string('valerror_sizemustbenum', 'qtype_regexmatchcloze');
                                         }
                                     }
 
