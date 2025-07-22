@@ -27,18 +27,18 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-/**
-*This holds the definition of a particular question of this type.
-*If you load three questions from the question bank, then you will get three instances of
-*that class. This class is not just the question definition, it can also track the current
-*state of a question as a student attempts it through a question_attempt instance.
-*/
-
 if (!class_exists('qtype_regexmatch_common_regex')) {
     require_once($CFG->dirroot . '/question/type/regexmatchcloze/common/common.php');
 }
-const REGEXMATCH_CLOZE_ALLOWED_KEYS = array(QTYPE_REGEXMATCH_SEPARATOR_KEY, QTYPE_REGEXMATCH_POINTS_KEY, QTYPE_REGEXMATCH_SIZE_KEY, QTYPE_REGEXMATCH_FEEDBACK_KEY,  QTYPE_REGEXMATCH_COMMENT_KEY);
-const REGEXMATCH_CLOZE_ALLOWED_OPTIONS = array('I', 'D', 'P', 'R', 'O', 'S', 'T', 'i', 'd', 'p', 'r', 'o', 's', 't');
+
+/**
+ * @var array Allowed keys for regexmatch cloze
+ */
+const QTYPE_REGEXMATCH_CLOZE_ALLOWED_KEYS = array(QTYPE_REGEXMATCH_COMMON_SEPARATOR_KEY, QTYPE_REGEXMATCH_COMMON_POINTS_KEY, QTYPE_REGEXMATCH_COMMON_SIZE_KEY, QTYPE_REGEXMATCH_COMMON_FEEDBACK_KEY,  QTYPE_REGEXMATCH_COMMON_COMMENT_KEY);
+/**
+ * @var array Allowed options for regexmatch cloze
+ */
+const QTYPE_REGEXMATCH_CLOZE_ALLOWED_OPTIONS = array('I', 'D', 'P', 'R', 'O', 'S', 'T', 'i', 'd', 'p', 'r', 'o', 's', 't');
 
 /**
  * Represents a regexmatchcloze question.
@@ -54,40 +54,51 @@ class qtype_regexmatchcloze_question extends question_graded_automatically {
      */
     public $answers = array();
 
-    public function start_attempt(
-        question_attempt_step $step,
-                              $variant
-    ) {
-        // probably not needed
-    }
-
+    /**
+     * Whether the given response can be considered complete. Meaning all gaps are filled.
+     *
+     * @param array $response responses, as returned by
+     *      {@link question_attempt_step::get_qt_data()}.
+     * @return bool whether this response is a complete answer to this question.
+     */
     public function is_complete_response(array $response) {
         foreach ($this->answers as $answer) {
             if(!array_key_exists($this->get_answer_field_name($answer), $response)) {
                return false;
             }
-            $submittedAnswer = $response[$this->get_answer_field_name($answer)];
+            $submittedanswer = $response[$this->get_answer_field_name($answer)];
 
-            if($submittedAnswer === null || $submittedAnswer === '')
+            if($submittedanswer === null || $submittedanswer === '')
                 return false;
         }
         return true;
     }
 
+    /**
+     * Whether the given response is gradable. Meaning at least one gap is filled.
+     *
+     * @param array $response responses, as returned by
+     *      {@link question_attempt_step::get_qt_data()}.
+     * @return bool whether this response can be graded.
+     */
     public function is_gradable_response(array $response) {
         foreach ($this->answers as $answer) {
             if(!array_key_exists($this->get_answer_field_name($answer), $response)) {
                 continue;
             }
-            $submittedAnswer = $response[$this->get_answer_field_name($answer)];
+            $submittedanswer = $response[$this->get_answer_field_name($answer)];
 
-            if($submittedAnswer !== null && $submittedAnswer !== '') {
+            if($submittedanswer !== null && $submittedanswer !== '') {
                 return true;
             }
         }
         return false;
     }
 
+    /**
+     * Returns an error if no gaps are filled.
+     * @return string the message.
+     */
     public function get_validation_error(array $response) {
         if ($this->is_gradable_response($response)) {
             return '';
@@ -95,6 +106,15 @@ class qtype_regexmatchcloze_question extends question_graded_automatically {
         return get_string('pleaseenterananswer', 'qtype_regexmatch');
     }
 
+    /**
+     * Whether the given response has changed.
+     *
+     * @param array $prevresponse the responses previously recorded for this question,
+     *      as returned by {@link question_attempt_step::get_qt_data()}
+     * @param array $newresponse the new responses, in the same format.
+     * @return bool whether the two sets of responses are the same - that is
+     *      whether the new set of responses can safely be discarded.
+     */
     public function is_same_response(array $prevresponse, array $newresponse) {
         foreach ($this->answers as $answer) {
             if(!question_utils::arrays_same_at_key($prevresponse, $newresponse, $this->get_answer_field_name($answer)))
@@ -104,61 +124,106 @@ class qtype_regexmatchcloze_question extends question_graded_automatically {
         return true;
     }
 
+    /**
+     * What data will be included in the form submission when a student submits
+     * this question
+     *
+     * @return array|string variable name => PARAM_... constant, or, as a special case
+     *      that should only be used in unavoidable, the constant question_attempt::USE_RAW_DATA
+     *      meaning take all the raw submitted data belonging to this question.
+     */
     public function get_expected_data() {
         $arr = array();
         foreach ($this->answers as $answer) {
-            $key = $answer->feedback;
             $arr[$this->get_answer_field_name($answer)] = PARAM_RAW;
         }
 
         return $arr;
     }
 
+    /**
+     * Produce a plain text summary of a response.
+     * @param array $response a response, as might be passed to {@link grade_response()}.
+     * @return string a plain text summary of that response, that could be used in reports.
+     */
     public function summarise_response(array $response) {
         $str = "";
         foreach ($this->answers as $answer) {
             $key = $answer->feedback;
-            $submittedAnswer = $response[$this->get_answer_field_name($answer)] ?? get_string('empty-answer', 'qtype_regexmatchcloze');
-            $str .= get_string('gap-num', 'qtype_regexmatchcloze', $key) . " $submittedAnswer\n";
+            $submittedanswer = $response[$this->get_answer_field_name($answer)] ?? get_string('empty-answer', 'qtype_regexmatchcloze');
+            $str .= get_string('gap-num', 'qtype_regexmatchcloze', $key) . " $submittedanswer\n";
         }
 
         return $str;
     }
 
+    /**
+     * Not possible.
+     *
+     * @param string $summary a string, which might have come from summarise_response
+     * @return array empty array
+     */
     public function un_summarise_response(string $summary) {
-        return '';
+        return array();
     }
 
+    /**
+     * Grade a response to the question, returning a fraction between
+     * get_min_fraction() and get_max_fraction(), and the corresponding {@link question_state}
+     * right, partial or wrong.
+     * @param array $response responses, as returned by
+     *      {@link question_attempt_step::get_qt_data()}.
+     * @return array (float, integer) the fraction, and the state.
+     */
     public function grade_response(array $response) {
 
-        $maxPoints = 0.0;
-        $userPoints = 0.0;
+        $maxpoints = 0.0;
+        $userpoints = 0.0;
         foreach ($this->answers as $answer) {
-            $maxPoints += $answer->points;
-            $submittedAnswer = $response[$this->get_answer_field_name($answer)] ?? null;
+            $maxpoints += $answer->points;
+            $submittedanswer = $response[$this->get_answer_field_name($answer)] ?? null;
 
-            if($submittedAnswer == null)
+            if($submittedanswer == null)
                 continue;
 
-            $res = $this->get_regex_for_answer($answer, $submittedAnswer);
+            $res = $this->get_regex_for_answer($answer, $submittedanswer);
             if($res != null)
-                $userPoints += $res[0];
+                $userpoints += $res[0];
         }
 
-        $fraction = $userPoints / $maxPoints;
+        $fraction = $userpoints / $maxpoints;
 
         return array($fraction, question_state::graded_state_for_fraction($fraction));
     }
 
+    /**
+     * not possible
+     *
+     * @return null
+     */
     public function get_correct_response() {
         return null;
     }
 
+    /**
+     * Given a response, rest the parts that are wrong. Does not clean anything.
+     * @param array $response a response
+     * @return array a cleaned up response with the wrong bits reset.
+     */
     public function clear_wrong_from_response(array $response) {
-        // We want to keep the previous answer as it is only a single answer field
         return $response;
     }
 
+    /**
+     * Checks whether the user is allow to be served a particular file.
+     * @param question_attempt $qa the question attempt being displayed.
+     * @param question_display_options $options the options that control display of the question.
+     * @param string $component the name of the component we are serving files for.
+     * @param string $filearea the name of the file area.
+     * @param array $args the remaining bits of the file path.
+     * @param bool $forcedownload whether the user must be forced to download the file.
+     * @return bool true if the user can access this file.
+     */
     public function check_file_access($qa, $options, $component, $filearea,
                                       $args, $forcedownload) {
         if ($component == 'question' && $filearea == 'hint') {
@@ -169,22 +234,29 @@ class qtype_regexmatchcloze_question extends question_graded_automatically {
         }
     }
 
+    /**
+     * Returns the field name of the frontend input field of given answer
+     * @param qtype_regexmatch_common_answer $answer the answer to get the field name for
+     * @return string field name
+     */
     public function get_answer_field_name(qtype_regexmatch_common_answer $answer) {
         return "gap" . $answer->feedback;
     }
 
     /**
-     * @param string $submittedAnswer answer submitted from a student
+     * Get the regex with the highest points of given answer for given submitted answer
+     * @param qtype_regexmatch_common_answer $answer the answer
+     * @param string $submittedanswer answer submitted from a student
      * @return array|null [0] => points, [1] => regex. regex of given $answer, which matches given answer or null if none matches
      */
-    public function get_regex_for_answer(qtype_regexmatch_common_answer $answer, string $submittedAnswer) {
+    public function get_regex_for_answer(qtype_regexmatch_common_answer $answer, string $submittedanswer) {
         $ret = null;
 
         // remove \r from the answer, which should not be matched.
-        $submittedAnswer = str_replace("\r", "", $submittedAnswer);
+        $submittedanswer = str_replace("\r", "", $submittedanswer);
 
         foreach ($answer->regexes as $regex) {
-            $value = qtype_regexmatch_common_try_regex($answer, $regex, $submittedAnswer);
+            $value = qtype_regexmatch_common_try_regex($answer, $regex, $submittedanswer);
 
             if($value > 0.0) {
                 $points = $answer->points * $value * ($regex->percent / 100.0);
@@ -198,6 +270,8 @@ class qtype_regexmatchcloze_question extends question_graded_automatically {
     }
 
     /**
+     * Get the question state for given answer for given submitted answer
+     * @param qtype_regexmatch_common_answer $answer the answer to get the state for
      * @param string $submittedAnswer answer submitted from a student
      * @return question_state  question_state::$gradedwrong, question_state::$gradedright or question_state::$gradedpartial.
      */

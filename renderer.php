@@ -36,6 +36,14 @@ defined('MOODLE_INTERNAL') || die();
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class qtype_regexmatchcloze_renderer extends qtype_renderer {
+
+    /**
+     * Generate the display of the formulation part of this regexmatchcloze question.
+     *
+     * @param question_attempt $qa the question attempt to display.
+     * @param question_display_options $options controls what should and should not be displayed.
+     * @return string HTML fragment.
+     */
     public function formulation_and_controls(
         question_attempt $qa,
         question_display_options $options
@@ -82,14 +90,14 @@ class qtype_regexmatchcloze_renderer extends qtype_renderer {
         // Add question text
         $result .= html_writer::tag('div', $questiontext);
 
-        /* if ($qa->get_state() == question_state::$invalid) {
-            $result .= html_writer::nonempty_tag('div',
-                    $question->get_validation_error(array('answer' => $currentanswer)),
-                    array('class' => 'validationerror'));
-        }*/
         return $result;
     }
 
+    /**
+     * Generate the specific feedback. This is feedback for every gap combined.
+     * @param question_attempt $qa the question attempt to display.
+     * @return string HTML fragment.
+     */
     public function specific_feedback(question_attempt $qa): string {
         /* @var qtype_regexmatchcloze_question $question */
         $question = $qa->get_question();
@@ -105,12 +113,18 @@ class qtype_regexmatchcloze_renderer extends qtype_renderer {
                 $res = array('0');
 
             $key = $answer->feedback; // index is stored in feedback
-            $feedback .= get_string('gap-num', 'qtype_regexmatchcloze', $key . " ($res[0]/$answer->points)") . ' ' . $answer->feedbackValue . "<br>";
+            $feedback .= get_string('gap-num', 'qtype_regexmatchcloze', $key . " ($res[0]/$answer->points)") . ' ' . $answer->feedbackvalue . "<br>";
         }
 
         return $feedback;
     }
 
+    /**
+     * Cannot generate a correct response.
+     *
+     * @param question_attempt $qa the question attempt to display.
+     * @return string empty string.
+     */
     public function correct_response(question_attempt $qa): string {
         // Cannot generate correct response from regex.
         return '';

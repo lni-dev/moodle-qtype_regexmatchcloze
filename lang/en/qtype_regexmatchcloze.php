@@ -143,5 +143,7 @@ $string['valerror_illegaloption'] = 'Illegal option "{$a}".';
 $string['valerror_illegalkeyorder'] = 'Illegal key order. Required order: {$a}.';
 $string['valerror_unkownkey'] = 'Unknown key "{$a}".';
 $string['valerror_illegalpercentage'] = 'Percentage must be between 0 and 100.';
-$string['valerror_pointsmustbenum'] = 'The variable \'points=\' must be set to a non-zero number.';
+$string['valerror_pointsmustbenum'] = 'The variable \'points=\' must be set to a non-zero positive number.';
+$string['valerror_sizemustbenum'] = 'The variable \'size=\' must be set to a non-zero positive integer.';
 $string['valerror_illegalsyntaxspecific'] = 'Illegal syntax: "{$a}".';
+$string['valerror_illegalchar'] = 'Illegal syntax: "{$a->context}": Illegal character "{$a->actual}", but expected "{$a->expected}".';

@@ -152,5 +152,7 @@ $string['valerror_illegaloption'] = 'Ungültige Option "{$a}".';
 $string['valerror_illegalkeyorder'] = 'Ungültige Schlüssel-Reihenfolge. Erforderliche Reihenfolge: {$a}.';
 $string['valerror_unkownkey'] = 'Unbekannter Schlüssel "{$a}".';
 $string['valerror_illegalpercentage'] = 'Prozentzahl muss zwischen 0 und 100 liegen.';
-$string['valerror_pointsmustbenum'] = 'Die Variable \'points=\' muss auf eine Zahl, die nicht null ist, gesetzt werden.';
+$string['valerror_pointsmustbenum'] = 'Die Variable \'points=\' muss auf eine positive Zahl, die nicht null ist, gesetzt werden.';
 $string['valerror_illegalsyntaxspecific'] = 'Ungültige Syntax: "{$a}".';
+$string['valerror_sizemustbenum'] = 'Die Variable \'size=\' muss auf eine positive natürliche Zahl, die nicht null ist, gesetzt werden.';
+$string['valerror_illegalchar'] = 'Ungültige Syntax: "{$a->context}": Ungültiges Zeichen "{$a->actual}". Erwartet wird "{$a->expected}".';
