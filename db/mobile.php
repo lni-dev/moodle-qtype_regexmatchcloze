@@ -38,8 +38,7 @@ $addons = [
                     'mobile_get_regexmatchcloze' => [],// function in classes/output/mobile.php
                 ], // Function needs caching for offline.
                 'styles' => [
-                    'url' => '/question/type/regexmatchcloze/mobile/styles_app.css',
-                    'version' => '1.00'
+
                 ]
             ]
         ],
