@@ -1,8 +1,5 @@
 # Regexmatch Cloze
 
-## TODO
-- usage examples + link in help button
-
 ## Moodle Installation
 References for installation on Windows and Ubuntu are given below.
 ### Windows
