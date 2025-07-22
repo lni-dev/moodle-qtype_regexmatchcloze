@@ -18,6 +18,7 @@
  * Privacy Subsystem implementation for qtype_regexmatchcloze.
  *
  * @package    qtype_regexmatchcloze
+ * @copyright  2025 Linus Andera
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 

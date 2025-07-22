@@ -55,9 +55,9 @@ class qtype_regexmatchcloze extends question_type {
      *
      * Uses the unused feedback field of every answer to store the gap index.
      *
-     * @param $question object the question object which should be updated. For a
+     * @param object $question the question object which should be updated. For a
      *      new question will be mostly empty.
-     * @param $form object the object containing the information to save, as if
+     * @param object $form the object containing the information to save, as if
      *      from the question editing form.
      * @return object On success, return the new question object. On failure,
      *       return an object as follows. If the error object has an errors field,
@@ -164,10 +164,10 @@ class qtype_regexmatchcloze extends question_type {
 
     /**
      * Import from xml
-     * @param $data mixed import data
-     * @param $question mixed unused
-     * @param $format qformat_xml  import format
-     * @param $extra mixed unused
+     * @param mixed $data  import data
+     * @param mixed $question unused
+     * @param qformat_xml $format import format
+     * @param mixed $extra unused
      * @return false|object
      */
     public function import_from_xml($data, $question, qformat_xml $format, $extra=null) {
@@ -198,9 +198,9 @@ class qtype_regexmatchcloze extends question_type {
 
     /**
      * Export to xml
-     * @param $question qtype_regexmatchcloze_question question to export
-     * @param $format qformat_xml  format to export to
-     * @param $extra unused
+     * @param qtype_regexmatchcloze_question $question question to export
+     * @param qformat_xml $format format to export to
+     * @param mixed $extra unused
      * @return string exported
      */
     public function export_to_xml($question, qformat_xml $format, $extra=null) {

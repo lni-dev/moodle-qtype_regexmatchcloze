@@ -33,7 +33,7 @@ class restore_qtype_regexmatchcloze_plugin extends restore_qtype_extrafields_plu
 
     /**
      * Process the qtype/regexmatchcloze element
-     * @param $data mixed restore data
+     * @param mixed $data restore data
      */
     public function process_regexmatchcloze($data) {
     }

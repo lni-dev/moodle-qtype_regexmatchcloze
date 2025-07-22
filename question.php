@@ -85,7 +85,7 @@ class qtype_regexmatchcloze_question extends question_graded_automatically {
      * Whether the given response is gradable. Meaning at least one gap is filled.
      *
      * @param array $response responses, as returned by
-     *      {@link question_attempt_step::get_qt_data()}.
+     *      question_attempt_step::get_qt_data().
      * @return bool whether this response can be graded.
      */
     public function is_gradable_response(array $response) {

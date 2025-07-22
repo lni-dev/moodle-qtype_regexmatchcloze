@@ -105,10 +105,10 @@ class qtype_regexmatchcloze_renderer extends qtype_renderer {
         $feedback = '';
 
         foreach ($question->answers as $answer) {
-            $submittedAnswer = $qa->get_last_qt_var($question->get_answer_field_name($answer));
-            $res = $question->get_regex_for_answer($answer, $submittedAnswer);
+            $submittedanswer = $qa->get_last_qt_var($question->get_answer_field_name($answer));
+            $res = $question->get_regex_for_answer($answer, $submittedanswer);
 
-            if($res == null) {
+            if ($res == null) {
                 $res = array('0');
             }
 

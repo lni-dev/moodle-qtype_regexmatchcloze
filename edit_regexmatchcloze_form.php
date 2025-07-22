@@ -64,11 +64,11 @@ class qtype_regexmatchcloze_edit_form extends question_edit_form {
 
     /**
      * Get the list of form elements to repeat, one for each answer.
-     * @param $mform MoodleQuickForm the form being built.
-     * @param $label the label to use for each option.
-     * @param $gradeoptions the possible grades for each answer.
-     * @param $repeatedoptions reference to array of repeated options to fill
-     * @param $answersoption reference to return the name of $question->options
+     * @param MoodleQuickForm $mform  the form being built.
+     * @param mixed $label the label to use for each option.
+     * @param mixed $gradeoptions the possible grades for each answer.
+     * @param mixed $repeatedoptions reference to array of repeated options to fill
+     * @param mixed $answersoption reference to return the name of $question->options
      *      field holding an array of answers
      * @return array of form fields.
      */
