@@ -64,7 +64,7 @@ class qtype_regexmatchcloze_edit_form extends question_edit_form {
 
     /**
      * Get the list of form elements to repeat, one for each answer.
-     * @param MoodleQuickForm $mform the form being built.
+     * @param $mform MoodleQuickForm the form being built.
      * @param $label the label to use for each option.
      * @param $gradeoptions the possible grades for each answer.
      * @param $repeatedoptions reference to array of repeated options to fill
@@ -97,7 +97,7 @@ class qtype_regexmatchcloze_edit_form extends question_edit_form {
     }
 
     /**
-     * Perform an preprocessing needed on the data passed to {@link set_data()}
+     * Perform an preprocessing needed on the data passed to set_data()
      * before it is used to initialise the form.
      * @param object $question the data being passed to the form.
      * @return object $question the modified data.
@@ -113,7 +113,7 @@ class qtype_regexmatchcloze_edit_form extends question_edit_form {
     /**
      * validate regex syntax
      *
-     * @param array $data array of ("fieldname"=>value) of submitted data
+     * @param array $fromform array of ("fieldname"=>value) of submitted data
      * @param array $files array of uploaded files "element_name"=>tmp_file_path
      * @return array of "element_name"=>"error_description" if there are errors,
      *         or an empty array if everything is OK (true allowed for backwards compatibility too).
@@ -149,7 +149,7 @@ class qtype_regexmatchcloze_edit_form extends question_edit_form {
                     $errors["answer[$key]"] = get_string('error-no-such-gap', 'qtype_regexmatchcloze');
                     continue;
                 }
-                $gaps[$key+1] = true;
+                $gaps[$key + 1] = true;
 
                 $remaining = preg_replace("/\\r/", "", $fromform['answer'][$key]);
 
@@ -272,7 +272,8 @@ class qtype_regexmatchcloze_edit_form extends question_edit_form {
                                             }
                                         }
                                         if ($isallowed) {
-                                            $errors["answer[$key]"] = get_string('valerror_illegalkeyorder', 'qtype_regexmatchcloze', implode(', ', QTYPE_REGEXMATCH_CLOZE_ALLOWED_KEYS));
+                                            $errors["answer[$key]"] = get_string('valerror_illegalkeyorder', 'qtype_regexmatchcloze',
+                                                implode(', ', QTYPE_REGEXMATCH_CLOZE_ALLOWED_KEYS));
                                         } else {
                                             $errors["answer[$key]"] = get_string('valerror_unkownkey', 'qtype_regexmatchcloze', $match);
                                         }

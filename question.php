@@ -64,7 +64,7 @@ class qtype_regexmatchcloze_question extends question_graded_automatically {
      * Whether the given response can be considered complete. Meaning all gaps are filled.
      *
      * @param array $response responses, as returned by
-     *      {@link question_attempt_step::get_qt_data()}.
+     *      question_attempt_step::get_qt_data().
      * @return bool whether this response is a complete answer to this question.
      */
     public function is_complete_response(array $response) {
@@ -104,6 +104,7 @@ class qtype_regexmatchcloze_question extends question_graded_automatically {
 
     /**
      * Returns an error if no gaps are filled.
+     * @param array $response the response
      * @return string the message.
      */
     public function get_validation_error(array $response) {
@@ -117,15 +118,16 @@ class qtype_regexmatchcloze_question extends question_graded_automatically {
      * Whether the given response has changed.
      *
      * @param array $prevresponse the responses previously recorded for this question,
-     *      as returned by {@link question_attempt_step::get_qt_data()}
+     *      as returned by question_attempt_step::get_qt_data()
      * @param array $newresponse the new responses, in the same format.
      * @return bool whether the two sets of responses are the same - that is
      *      whether the new set of responses can safely be discarded.
      */
     public function is_same_response(array $prevresponse, array $newresponse) {
         foreach ($this->answers as $answer) {
-            if (!question_utils::arrays_same_at_key($prevresponse, $newresponse, $this->get_answer_field_name($answer)))
+            if (!question_utils::arrays_same_at_key($prevresponse, $newresponse, $this->get_answer_field_name($answer))) {
                 return false;
+            }
         }
 
         return true;
@@ -150,7 +152,7 @@ class qtype_regexmatchcloze_question extends question_graded_automatically {
 
     /**
      * Produce a plain text summary of a response.
-     * @param array $response a response, as might be passed to {@link grade_response()}.
+     * @param array $response a response, as might be passed to grade_response().
      * @return string a plain text summary of that response, that could be used in reports.
      */
     public function summarise_response(array $response) {
@@ -176,10 +178,10 @@ class qtype_regexmatchcloze_question extends question_graded_automatically {
 
     /**
      * Grade a response to the question, returning a fraction between
-     * get_min_fraction() and get_max_fraction(), and the corresponding {@link question_state}
+     * get_min_fraction() and get_max_fraction(), and the corresponding question_state
      * right, partial or wrong.
      * @param array $response responses, as returned by
-     *      {@link question_attempt_step::get_qt_data()}.
+     *      question_attempt_step::get_qt_data().
      * @return array (float, integer) the fraction, and the state.
      */
     public function grade_response(array $response) {
@@ -190,8 +192,9 @@ class qtype_regexmatchcloze_question extends question_graded_automatically {
             $maxpoints += $answer->points;
             $submittedanswer = $response[$this->get_answer_field_name($answer)] ?? null;
 
-            if ($submittedanswer == null)
+            if ($submittedanswer == null) {
                 continue;
+            }
 
             $res = $this->get_regex_for_answer($answer, $submittedanswer);
             if ($res != null) {

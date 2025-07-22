@@ -74,8 +74,8 @@ class qtype_regexmatchcloze_renderer extends qtype_renderer {
 
             $feedbackimage = '';
             if ($options->correctness) {
-                $submittedAnswer = $qa->get_last_qt_var($question->get_answer_field_name($answer));
-                $qs = $question->get_question_state_for_answer($answer, $submittedAnswer);
+                $submittedanswer = $qa->get_last_qt_var($question->get_answer_field_name($answer));
+                $qs = $question->get_question_state_for_answer($answer, $submittedanswer);
                 $feedbackclass = $qs->get_feedback_class();
                 $inputattributes['class'] .= ' ' . $feedbackclass;
                 $feedbackimage = $this->output->pix_icon('i/grade_' . $feedbackclass, get_string($feedbackclass, 'question'));;
@@ -108,8 +108,9 @@ class qtype_regexmatchcloze_renderer extends qtype_renderer {
             $submittedAnswer = $qa->get_last_qt_var($question->get_answer_field_name($answer));
             $res = $question->get_regex_for_answer($answer, $submittedAnswer);
 
-            if($res == null)
+            if($res == null) {
                 $res = array('0');
+            }
 
             $key = $answer->feedback; // index is stored in feedback
             $feedback .= get_string('gap-num', 'qtype_regexmatchcloze', $key . " ($res[0]/$answer->points)") . ' ' . $answer->feedbackvalue . "<br>";

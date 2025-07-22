@@ -15,7 +15,9 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package    moodlecore
+ * Provides the information to backup regexmatchcloze questions
+ *
+ * @package    qtype_regexmatchcloze
  * @subpackage backup-moodle2
  * @copyright  2025 Linus Andera (linus@linusdev.de)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later

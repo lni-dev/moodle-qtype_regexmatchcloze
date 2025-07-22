@@ -17,7 +17,7 @@
 /**
  * Question type class for the regexmatchcloze question type.
  *
- * @package    qtype
+ * @package    qtype_regexmatchcloze
  * @subpackage regexmatchcloze
  * @copyright  2025 Linus Andera (linus@linusdev.de)
 
@@ -55,11 +55,10 @@ class qtype_regexmatchcloze extends question_type {
      *
      * Uses the unused feedback field of every answer to store the gap index.
      *
-     * @param object $question the question object which should be updated. For a
+     * @param $question object the question object which should be updated. For a
      *      new question will be mostly empty.
-     * @param object $form the object containing the information to save, as if
+     * @param $form object the object containing the information to save, as if
      *      from the question editing form.
-     * @param object $course not really used any more.
      * @return object On success, return the new question object. On failure,
      *       return an object as follows. If the error object has an errors field,
      *       display that as an error message. Otherwise, the editing form will be
@@ -73,7 +72,7 @@ class qtype_regexmatchcloze extends question_type {
             $form->fraction[$key] = 0;
             $form->feedback[$key]['text'] = "";
 
-            if(!$this->is_answer_empty($form, $key)) {
+            if (!$this->is_answer_empty($form, $key)) {
                 $form->feedback[$key]['format'] = FORMAT_PLAIN;
                 $index = $key + 1;
                 $form->feedback[$key]['text'] = "$index"; // feedback text stores the answer index
@@ -154,9 +153,7 @@ class qtype_regexmatchcloze extends question_type {
         parent::initialise_question_instance($question, $questiondata);
         $this->initialise_question_answers($question, $questiondata);
 
-        /**
-         * @var qtype_regexmatchcloze_question $q
-         */
+        /* @var qtype_regexmatchcloze_question $q */
         $q = $question;
         $maxpoints = 0.0;
         foreach ($q->answers as $answer) {
@@ -166,9 +163,10 @@ class qtype_regexmatchcloze extends question_type {
     }
 
     /**
+     * Import from xml
      * @param $data mixed import data
      * @param $question mixed unused
-     * @param qformat_xml $format import format
+     * @param $format qformat_xml  import format
      * @param $extra mixed unused
      * @return false|object
      */
@@ -199,8 +197,9 @@ class qtype_regexmatchcloze extends question_type {
     }
 
     /**
+     * Export to xml
      * @param $question qtype_regexmatchcloze_question question to export
-     * @param qformat_xml $format format to export to
+     * @param $format qformat_xml  format to export to
      * @param $extra unused
      * @return string exported
      */

@@ -17,9 +17,9 @@
 /**
  * Multi-answer question type upgrade code.
  *
- * @package    qtype
+ * @package    qtype_regexmatchcloze
  * @subpackage regexmatchcloze
- * @copyright  2912 Marcus Green 
+ * @copyright  2024 Linus Andera (linus@linusdev.de)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 defined('MOODLE_INTERNAL') || die();
@@ -27,7 +27,7 @@ defined('MOODLE_INTERNAL') || die();
 /**
  * Upgrade code for the regexmatchcloze question type.
  * A selection of things you might want to do when upgrading
- * to a new version. This file is generally not needed for 
+ * to a new version. This file is generally not needed for
  * the first release of a question type.
  * @param int $oldversion the version we are upgrading from.
  */

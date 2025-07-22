@@ -35,15 +35,15 @@ $addons = [
                 'delegate' => 'CoreQuestionDelegate', // Delegate (where to display the link to the add-on).
                 'method' => 'mobile_get_regexmatchcloze',
                 'offlinefunctions' => [
-                    'mobile_get_regexmatchcloze' => [],// function in classes/output/mobile.php
+                    'mobile_get_regexmatchcloze' => [], // function in classes/output/mobile.php
                 ], // Function needs caching for offline.
                 'styles' => [
 
-                ]
-            ]
+                ],
+            ],
         ],
         'lang' => [
                     ['pluginname', 'qtype_regexmatchcloze'], // matching value in  lang/en/qtype_regexmatchcloze
         ],
-    ]
+    ],
 ];
