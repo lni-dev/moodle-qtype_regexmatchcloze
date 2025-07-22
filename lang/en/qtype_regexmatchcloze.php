@@ -125,7 +125,7 @@ and after the redirect inside the regex, must also be contained in the answer.
 **O: Match Any Order**<br>
 The regex must consist of multiple regexes (`[[regex1]] [[regex2]]`).
 The answers (separated by the value of the key `separator=`. New line by default.) must match any of the regexes, but order is not important.
-Each regex can only be matched by a single answer. The calculation of points can be found [here](https://github.com/lni-dev/moodle-qtype_regexmatch/blob/master/usage-examples.md#evaluation).
+Each regex can only be matched by a single answer. The calculation of points can be found [here](https://github.com/lni-dev/moodle-qtype_regexmatchcloze/blob/master/usage-examples.md#evaluation).
 ';
 $string['default_options_help'] = /* @lang Markdown */
     'These options are enabled by default and can be disabled by specifying the corresponding letter.
