@@ -17,7 +17,7 @@
 /**
  * Strings for component 'qtype_regexmatchcloze', language 'en', branch 'MOODLE_20_STABLE'
  *
- * @package    qtype
+ * @package    qtype_regexmatchcloze
  * @subpackage regexmatchcloze
  * @copyright  2025 Linus Andera (linus@linusdev.de)
 
@@ -37,7 +37,7 @@ $string['error-gap-not-defined'] = 'Gap {$a} is not defined below.';
 $string['gap-num'] = 'Gap {$a}:';
 $string['empty-answer'] = 'none';
 $string['empty-feedback'] = 'No feedback.';
-$string['gap-number_help'] = /** @lang Markdown */
+$string['gap-number_help'] = /* @lang Markdown */
     'The following syntax must be respected:
 ```
 [[regex]] /OPTIONS/
@@ -59,8 +59,8 @@ A more concrete description (with examples) can be found [here](https://github.c
 
 The keys `separator`, `points`, `size`, `feedback` and `comment` are optional. `separator` is described in help-field of the options.
 `points` describes the maximum points for this gap (default: 1).
-`size` describes the size of the input field (default: 5). `feedback` is the feedback for this field shown to the user. 
-`comment` is a text field only visible in the question edit form. 
+`size` describes the size of the input field (default: 5). `feedback` is the feedback for this field shown to the user.
+`comment` is a text field only visible in the question edit form.
 
 `/OPTIONS/` are described in the help-field of the options below. If no options are enabled or disabled an empty `//` must be present.
 
@@ -102,7 +102,7 @@ The regex anchors "$" and "^" cannot be used. If they should be matched as liter
 ';
 $string['options'] = "Options";
 $string['default_options'] = "Default Options";
-$string['options_help'] = /** @lang Markdown */
+$string['options_help'] = /* @lang Markdown */
     'Some options may be set. Options must be placed at the end of the regex. Furthermore, they must start and end with
 a forward slash (`/`). For example: `/PI/`. Every option is enabled/disabled by a single letter. The options are described below.
 
@@ -127,7 +127,7 @@ The regex must consist of multiple regexes (`[[regex1]] [[regex2]]`).
 The answers (separated by the value of the key `separator=`. New line by default.) must match any of the regexes, but order is not important.
 Each regex can only be matched by a single answer. The calculation of points can be found [here](https://github.com/lni-dev/moodle-qtype_regexmatch/blob/master/usage-examples.md#evaluation).
 ';
-$string['default_options_help'] = /** @lang Markdown */
+$string['default_options_help'] = /* @lang Markdown */
     'These options are enabled by default and can be disabled by specifying the corresponding letter.
 
 **S: Infinite Space**<br>

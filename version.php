@@ -17,7 +17,7 @@
 /**
  * regexmatchcloze question type version information.
  *
- * @package    qtype
+ * @package    qtype_regexmatchcloze
  * @subpackage regexmatchcloze
  * @copyright  2025 Linus Andera (linus@linusdev.de)
 
@@ -28,7 +28,7 @@ defined('MOODLE_INTERNAL') || die();
 
 $plugin->component = 'qtype_regexmatchcloze';
 
-/**
+/*
  * format: yyyymmddnn<br>
  * nn: number to increase if needed<br>
  * <br>

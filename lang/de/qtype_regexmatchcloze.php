@@ -17,7 +17,7 @@
 /**
  * Strings for component 'qtype_regexmatchcloze', language 'de', branch 'MOODLE_20_STABLE'
  *
- * @package    qtype
+ * @package    qtype_regexmatchcloze
  * @subpackage regexmatchcloze
  * @copyright  2025 Linus Andera (linus@linusdev.de)
 
@@ -37,7 +37,7 @@ $string['error-gap-not-defined'] = 'Die Lücke {$a} ist unten nicht definiert.';
 $string['gap-num'] = 'Lücke {$a}:';
 $string['empty-answer'] = 'leer';
 $string['empty-feedback'] = 'Kein Feedback.';
-$string['gap-number_help'] = /** @lang Markdown */
+$string['gap-number_help'] = /* @lang Markdown */
     'Es muss die folgende Syntax eingehalten werden:
 ```
 [[regex]] /OPTIONS/
@@ -60,14 +60,14 @@ Eine genauere Beschreibung (mit weiteren Beispielen) findet sich [hier](https://
 Die Schlüssel `separator`, `points`, `size`, `feedback` und `comment` sind Optional. `separator=` wird in dem Hilfefeld zu den Optionen beschrieben.
 
 `points` beschreibt die maximal erreichbaren Punkte für diese Lücke (default: 1).
-`size` beschreibt die größe des Eingabefeldes (default: 5). `feedback` is das Feedback für diese Lücke, dies wird dem Lernenden angezeigt. 
+`size` beschreibt die größe des Eingabefeldes (default: 5). `feedback` is das Feedback für diese Lücke, dies wird dem Lernenden angezeigt.
 `comment` ist ein Textfeld, welches nur hier sichtbar ist.
 
-`/OPTIONS/` werden in dem Hilfefeld zu den Optionen beschrieben. Falls keine Optionen an oder ausgeschaltet werden müssen 
+`/OPTIONS/` werden in dem Hilfefeld zu den Optionen beschrieben. Falls keine Optionen an oder ausgeschaltet werden müssen
 leere Optionen (`//`) angegeben werden.
 
 `regex` ist ein regulärer Ausdruck im [PCRE syntax](https://www.php.net/manual/en/reference.pcre.pattern.syntax.php).
-Der reguläre Ausdruck muss sich zwischen doppelten eckigen Klammern (\[\[\]\]) befinden. 
+Der reguläre Ausdruck muss sich zwischen doppelten eckigen Klammern (\[\[\]\]) befinden.
 Hier ist eine kurze Beschreibung der wichtigsten regex Funktionen:
 
 |        |                Strukturen                |
@@ -106,8 +106,8 @@ sollen, können sie escaped werden: "\$", "\^".
 ';
 $string['options'] = "Options";
 $string['default_options'] = "Default Options";
-$string['options_help'] = /** @lang Markdown */
-    'Einige Optionen können aktiviert/deaktiviert werden. 
+$string['options_help'] = /* @lang Markdown */
+    'Einige Optionen können aktiviert/deaktiviert werden.
 Diese müssen mit einem Schrägstrich (`/`) anfangen und enden. Zum Beispiel: `/PI/`. Jede Option wird durch einen
 einzigen großen Buchstaben aktiviert und durch einen kleinen Buchstaben deaktiviert.
 
@@ -132,18 +132,18 @@ der Antwort vorkommen.
 
 **O: Beliebige Reihenfolge**<br>
 Der reguläre Ausdruck sollte aus mindestens zwei regulären Ausdrucken bestehen (`[[regex1]] [[regex2]]`), da bei nur einem regulären Ausdruck die Option nicht verändert.
-Die Antworten (Von dem Wert des Schlüssels `separator=` getrennt. Standardmäßig ein Zeilenumbruch.) müssen von einem der regulären Ausdrücke gefunden werden, die 
+Die Antworten (Von dem Wert des Schlüssels `separator=` getrennt. Standardmäßig ein Zeilenumbruch.) müssen von einem der regulären Ausdrücke gefunden werden, die
 Reihenfolge ist allerdings egal. Jeder regulärer Ausdruck kann nur einmal gefunden werden. Es werden auch Teilmengen gefunden, die Teilpunkte geben. Genaue Berechnung der
 Punktzahl findet sich [hier](https://github.com/lni-dev/moodle-qtype_regexmatch/blob/master/usage-examples.md#evaluation).
 ';
-$string['default_options_help'] = /** @lang Markdown */
+$string['default_options_help'] = /* @lang Markdown */
     'Die folgenden Optionen sind standardmäßig aktiviert und können durch Angabe des jeweiligen (kleinen) Buchstaben deaktiviert werden.
 
 **s: Beliebig Viele Leerzeichen**<br>
 Alle Leerzeichen innerhalb des Ausdrucks werden mit `([ \t]+)` ersetzt. Dadurch finden diese ein oder mehr Whitespace Charakter.
 
 **t: Leerzeichen Trimmen**<br>
-Leerzeilen zu Beginn und am Ende der Antwort, sowie Leerzeichen zu Beginn und am Ende jeder Zeile 
+Leerzeilen zu Beginn und am Ende der Antwort, sowie Leerzeichen zu Beginn und am Ende jeder Zeile
 der Antwort, werden ignoriert. Leerzeilen am Ende der Antwort werden immer ignoriert, egal ob diese
 Option aktiviert ist oder nicht.';
 $string['dollarroofmustbeescaped'] = 'Die Regex Anker "$" und "^" können nicht verwendet werden. Falls diese als Literal gesucht werden sollen, können sie escaped werden: "\\$", "\\^"';

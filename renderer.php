@@ -17,7 +17,7 @@
 /**
  * regexmatchcloze question renderer class.
  *
- * @package    qtype
+ * @package    qtype_regexmatchcloze
  * @subpackage regexmatchcloze
  * @copyright  2025 Linus Andera (linus@linusdev.de)
 
@@ -49,39 +49,39 @@ class qtype_regexmatchcloze_renderer extends qtype_renderer {
         question_display_options $options
     ): string {
 
-        /**
-         * @var $question qtype_regexmatchcloze_question
-         */
+        /* @var $question qtype_regexmatchcloze_question */
         $question = $qa->get_question();
 
         // Text to be displayed for this question (set when creating)
         $questiontext = $question->format_questiontext($qa);
 
-        $inputAttributes = array(
+        $inputattributes = array(
             'type' => 'text',
             'class' => 'form-control d-inline',
         );
-        if ($options->readonly)
-            $inputAttributes['readonly'] = 'readonly';
+        if ($options->readonly) {
+            $inputattributes['readonly'] = 'readonly';
+        }
+
         foreach ($question->answers as $answer) {
             $key = $answer->feedback; // index is stored in feedback
             $inputname = $qa->get_qt_field_name($question->get_answer_field_name($answer));
             $currentanswer = $qa->get_last_qt_var($question->get_answer_field_name($answer)); // The last answer, that the student entered (if any)
-            $inputAttributes['name'] = $inputname;
-            $inputAttributes['value'] = $currentanswer;
-            $inputAttributes['id'] = $inputname;
-            $inputAttributes['size'] = $answer->size;
+            $inputattributes['name'] = $inputname;
+            $inputattributes['value'] = $currentanswer;
+            $inputattributes['id'] = $inputname;
+            $inputattributes['size'] = $answer->size;
 
             $feedbackimage = '';
             if ($options->correctness) {
                 $submittedAnswer = $qa->get_last_qt_var($question->get_answer_field_name($answer));
                 $qs = $question->get_question_state_for_answer($answer, $submittedAnswer);
                 $feedbackclass = $qs->get_feedback_class();
-                $inputAttributes['class'] .= ' ' . $feedbackclass;
+                $inputattributes['class'] .= ' ' . $feedbackclass;
                 $feedbackimage = $this->output->pix_icon('i/grade_' . $feedbackclass, get_string($feedbackclass, 'question'));;
             }
 
-            $input = html_writer::empty_tag('input', $inputAttributes) . $feedbackimage;
+            $input = html_writer::empty_tag('input', $inputattributes) . $feedbackimage;
             $questiontext = str_replace("[[$key]]", $input, $questiontext);
         }
 
@@ -101,7 +101,6 @@ class qtype_regexmatchcloze_renderer extends qtype_renderer {
     public function specific_feedback(question_attempt $qa): string {
         /* @var qtype_regexmatchcloze_question $question */
         $question = $qa->get_question();
-
 
         $feedback = '';
 

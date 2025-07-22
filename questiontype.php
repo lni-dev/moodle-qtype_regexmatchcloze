@@ -173,27 +173,27 @@ class qtype_regexmatchcloze extends question_type {
      * @return false|object
      */
     public function import_from_xml($data, $question, qformat_xml $format, $extra=null) {
-        $question_type = $data['@']['type'];
-        if ($question_type != $this->name()) {
+        $questiontype = $data['@']['type'];
+        if ($questiontype != $this->name()) {
             return false;
         }
 
         $qo = $format->import_headers($data);
-        $qo->qtype = $question_type;
+        $qo->qtype = $questiontype;
 
         // Run through the answers.
         $answers = $data['#']['answer'];
-        $a_count = 0;
+        $acount = 0;
         foreach ($answers as $answer) {
             $ans = $format->import_answer($answer);
             if (!$this->has_html_answers()) {
-                $qo->answer[$a_count] = $ans->answer['text'];
+                $qo->answer[$acount] = $ans->answer['text'];
             } else {
-                $qo->answer[$a_count] = $ans->answer;
+                $qo->answer[$acount] = $ans->answer;
             }
-            $qo->fraction[$a_count] = $ans->fraction;
-            $qo->feedback[$a_count] = $ans->feedback;
-            ++$a_count;
+            $qo->fraction[$acount] = $ans->fraction;
+            $qo->feedback[$acount] = $ans->feedback;
+            ++$acount;
         }
         return $qo;
     }
