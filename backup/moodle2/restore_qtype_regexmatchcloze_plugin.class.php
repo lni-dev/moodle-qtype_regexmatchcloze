@@ -24,7 +24,9 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-
+/**
+ * Provides the information to restore regexmatchcloze questions
+ */
 class restore_qtype_regexmatchcloze_plugin extends restore_qtype_extrafields_plugin {
 
     /**

@@ -61,6 +61,16 @@ class qtype_regexmatchcloze_edit_form extends question_edit_form {
         $this->add_interactive_settings();
     }
 
+    /**
+     * Get the list of form elements to repeat, one for each answer.
+     * @param MoodleQuickForm $mform the form being built.
+     * @param $label the label to use for each option.
+     * @param $gradeoptions the possible grades for each answer.
+     * @param $repeatedoptions reference to array of repeated options to fill
+     * @param $answersoption reference to return the name of $question->options
+     *      field holding an array of answers
+     * @return array of form fields.
+     */
     protected function get_per_answer_fields(
         $mform,
         $label,
@@ -85,6 +95,12 @@ class qtype_regexmatchcloze_edit_form extends question_edit_form {
         return $repeated;
     }
 
+    /**
+     * Perform an preprocessing needed on the data passed to {@link set_data()}
+     * before it is used to initialise the form.
+     * @param object $question the data being passed to the form.
+     * @return object $question the modified data.
+     */
     protected function data_preprocessing($question) {
         $question = parent::data_preprocessing($question);
         $question = $this->data_preprocessing_answers($question);
@@ -93,12 +109,20 @@ class qtype_regexmatchcloze_edit_form extends question_edit_form {
         return $question;
     }
 
+    /**
+     * validate regex syntax
+     *
+     * @param array $data array of ("fieldname"=>value) of submitted data
+     * @param array $files array of uploaded files "element_name"=>tmp_file_path
+     * @return array of "element_name"=>"error_description" if there are errors,
+     *         or an empty array if everything is OK (true allowed for backwards compatibility too).
+     */
     public function validation($fromform, $files): array {
         $errors = parent::validation($fromform, $files);
 
-        $questionText = $fromform['questiontext']['text'];
+        $questiontext = $fromform['questiontext']['text'];
 
-        preg_match_all("/\[\[(?P<number>[0-9]+)\]\]/", $questionText, $matches);
+        preg_match_all("/\[\[(?P<number>[0-9]+)\]\]/", $questiontext, $matches);
 
         $gaps = array();
         $max = -1;
@@ -141,7 +165,7 @@ class qtype_regexmatchcloze_edit_form extends question_edit_form {
                             if ($first) {
                                 $first = false;
                                 $percent = 100;
-                                $percentOffset = 0;
+                                $percentoffset = 0;
                             } else {
 
                                 if (!preg_match("%]][ \\n]*/[a-zA-Z]*/%", $remaining, $matches, PREG_OFFSET_CAPTURE)) {
@@ -150,9 +174,9 @@ class qtype_regexmatchcloze_edit_form extends question_edit_form {
                                     return $errors;
                                 }
 
-                                preg_match("/%[0-9]+/", $remaining, $percentMatch);
-                                $percent = substr($percentMatch[0], 1);
-                                $percentOffset = strlen($percentMatch[0]);
+                                preg_match("/%[0-9]+/", $remaining, $percentmatch);
+                                $percent = substr($percentmatch[0], 1);
+                                $percentoffset = strlen($percentmatch[0]);
                             }
 
                             if($percent < 0 || $percent > 100) {
@@ -163,20 +187,20 @@ class qtype_regexmatchcloze_edit_form extends question_edit_form {
                             $index = intval($matches[0][1]);
 
                             // Regexes without the last "]]". E.g.: [[regex1]] [[regex2
-                            $regularExpressions = substr($remaining, $percentOffset, $index - $percentOffset);
-                            $regularExpressions = trim($regularExpressions); // Now trim all spaces at the beginning and end
-                            if(!qtype_regexmatch_common_str_starts_with($regularExpressions, '[[')) {
+                            $regularexpressions = substr($remaining, $percentoffset, $index - $percentoffset);
+                            $regularexpressions = trim($regularexpressions); // Now trim all spaces at the beginning and end
+                            if(!qtype_regexmatch_common_str_starts_with($regularexpressions, '[[')) {
                                 $a = array(
-                                    'context' => substr($remaining, 0, $index - $percentOffset),
-                                    'actual' => substr($regularExpressions, 0, 1),
+                                    'context' => substr($remaining, 0, $index - $percentoffset),
+                                    'actual' => substr($regularexpressions, 0, 1),
                                     'expected' => '[['
                                 );
                                 $errors["answer[$key]"] = get_string('valerror_illegalchar', 'qtype_regexmatchcloze', $a);
 
                             }
-                            $regularExpressions = substr($regularExpressions, 2); // remove the starting "[["
+                            $regularexpressions = substr($regularexpressions, 2); // remove the starting "[["
 
-                            if(preg_match('/(?<!\\\\)(\\\\\\\\)*[$^]/', $regularExpressions) == 1) {
+                            if(preg_match('/(?<!\\\\)(\\\\\\\\)*[$^]/', $regularexpressions) == 1) {
                                 $errors["answer[$key]"] = get_string('dollarroofmustbeescaped', 'qtype_regexmatchcloze');
                             }
 
@@ -207,17 +231,17 @@ class qtype_regexmatchcloze_edit_form extends question_edit_form {
                         } while (qtype_regexmatch_common_str_starts_with($remaining, "%"));
 
                         // Key Value pairs
-                        $keyValuePairs = $remaining;
+                        $keyvaluepairs = $remaining;
 
-                        if($keyValuePairs != '') {
-                            $nextKey = 0;
-                            foreach (preg_split("/\\n/", $keyValuePairs) as $keyValuePair) {
-                                if(trim($keyValuePair) == '') {
+                        if($keyvaluepairs != '') {
+                            $nextkey = 0;
+                            foreach (preg_split("/\\n/", $keyvaluepairs) as $keyvaluepair) {
+                                if(trim($keyvaluepair) == '') {
                                     continue;
                                 }
-                                if(preg_match("/^[a-z]+=/", $keyValuePair, $matches)) {
+                                if(preg_match("/^[a-z]+=/", $keyvaluepair, $matches)) {
                                     $match = $matches[0];
-                                    $value = trim(substr($keyValuePair, strlen($match)));
+                                    $value = trim(substr($keyvaluepair, strlen($match)));
 
                                     if($match === QTYPE_REGEXMATCH_COMMON_POINTS_KEY) {
                                         if(!preg_match("/(^0+\\.[1-9][0-9]*$)|(^0*[1-9][0-9]*(\\.[0-9]+)?$)/", $value)) {
@@ -232,22 +256,22 @@ class qtype_regexmatchcloze_edit_form extends question_edit_form {
                                     }
 
                                     $found = false;
-                                    for (; $nextKey < count(QTYPE_REGEXMATCH_CLOZE_ALLOWED_KEYS); $nextKey++) {
-                                        if($match == QTYPE_REGEXMATCH_CLOZE_ALLOWED_KEYS[$nextKey]) {
+                                    for (; $nextkey < count(QTYPE_REGEXMATCH_CLOZE_ALLOWED_KEYS); $nextkey++) {
+                                        if($match == QTYPE_REGEXMATCH_CLOZE_ALLOWED_KEYS[$nextkey]) {
                                             $found = true;
                                             break;
                                         }
                                     }
 
                                     if(!$found) {
-                                        $isAllowed = false;
+                                        $isallowed = false;
                                         foreach (QTYPE_REGEXMATCH_CLOZE_ALLOWED_KEYS as $allowed) {
                                             if ($allowed == $match) {
-                                                $isAllowed = true;
+                                                $isallowed = true;
                                                 break;
                                             }
                                         }
-                                        if($isAllowed) {
+                                        if($isallowed) {
                                             $errors["answer[$key]"] = get_string('valerror_illegalkeyorder', 'qtype_regexmatchcloze', implode(', ', QTYPE_REGEXMATCH_CLOZE_ALLOWED_KEYS));
                                         } else  {
                                             $errors["answer[$key]"] = get_string('valerror_unkownkey', 'qtype_regexmatchcloze', $match);
@@ -256,7 +280,7 @@ class qtype_regexmatchcloze_edit_form extends question_edit_form {
                                     }
 
                                 } else {
-                                    $errors["answer[$key]"] = get_string('valerror_illegalsyntaxspecific', 'qtype_regexmatchcloze', $keyValuePair);
+                                    $errors["answer[$key]"] = get_string('valerror_illegalsyntaxspecific', 'qtype_regexmatchcloze', $keyvaluepair);
                                 }
                             }
                         }
@@ -275,6 +299,11 @@ class qtype_regexmatchcloze_edit_form extends question_edit_form {
         return $errors;
     }
 
+    /**
+     * Question type name.
+     * @return the question type name, should be the same as the name() method
+     *      in the question type class.
+     */
     public function qtype() {
         return 'regexmatchcloze';
     }

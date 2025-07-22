@@ -24,8 +24,6 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
- /*https://docs.moodle.org/dev/Question_types#Question_type_and_question_definition_classes*/
-
 
 defined('MOODLE_INTERNAL') || die();
 
@@ -52,6 +50,23 @@ class qtype_regexmatchcloze extends question_type {
         return false;
     }
 
+    /**
+     * Saves (creates or updates) a question.
+     *
+     * Uses the unused feedback field of every answer to store the gap index.
+     *
+     * @param object $question the question object which should be updated. For a
+     *      new question will be mostly empty.
+     * @param object $form the object containing the information to save, as if
+     *      from the question editing form.
+     * @param object $course not really used any more.
+     * @return object On success, return the new question object. On failure,
+     *       return an object as follows. If the error object has an errors field,
+     *       display that as an error message. Otherwise, the editing form will be
+     *       redisplayed with validation errors, from validation_errors field, which
+     *       is itself an object, shown next to the form fields. (I don't think this
+     *       is accurate any more.)
+     */
     public function save_question($question, $form) {
         // Since we are missing some fields in the ui we must set these to default values before saving.
         foreach ($form->answer as $key => $answerdata) {
@@ -68,20 +83,24 @@ class qtype_regexmatchcloze extends question_type {
         return parent::save_question($question, $form);
     }
 
+    /**
+     * Saves question-type specific options
+     *
+     * @param object $question This holds the information from the editing form,
+     *      it is not a standard question object.
+     * @return bool|stdClass $result->error or $result->notice
+     */
     public function save_question_options($question) {
         parent::save_question_options($question);
         $this->save_question_answers($question);
         $this->save_hints($question);
     }
 
-    public function extra_question_fields() {
-        return null;
-    }
-
-    public function extra_answer_fields() {
-        return null;
-    }
-
+    /**
+     * Create a qtype_regexmatch_common_answer
+     * @param object $answer the DB row from the question_answers table plus extra answer fields.
+     * @return qtype_regexmatch_common_answer
+     */
     protected function make_answer($answer): qtype_regexmatch_common_answer {
         return new qtype_regexmatch_common_answer(
             $answer->id,
@@ -92,22 +111,45 @@ class qtype_regexmatchcloze extends question_type {
         );
     }
 
+    /**
+     * Calculate the score a monkey would get on a question by clicking randomly.
+     *
+     * @param stdClass $questiondata data defining a question, as returned by
+     *      question_bank::load_question_data().
+     * @return number 0
+     */
     public function get_random_guess_score($questiondata) {
         return 0;
     }
 
+    /**
+     * Move all the files belonging to this question, answers or hints from one context to another.
+     * @param int $questionid the question being moved.
+     * @param int $oldcontextid the context it is moving from.
+     * @param int $newcontextid the context it is moving to.
+     */
     public function move_files($questionid, $oldcontextid, $newcontextid) {
         parent::move_files($questionid, $oldcontextid, $newcontextid);
         $this->move_files_in_answers($questionid, $oldcontextid, $newcontextid);
         $this->move_files_in_hints($questionid, $oldcontextid, $newcontextid);
     }
 
+    /**
+     * Delete all the files belonging to this question, answers or hints.
+     * @param int $questionid the question being deleted.
+     * @param int $contextid the context the question is in.
+     */
     protected function delete_files($questionid, $contextid) {
         parent::delete_files($questionid, $contextid);
         $this->delete_files_in_answers($questionid, $contextid);
         $this->delete_files_in_hints($questionid, $contextid);
     }
 
+    /**
+     * Initialise the common question_definition fields and answers. Also calculates $question->defaultmark
+     * @param question_definition $question the question_definition we are creating.
+     * @param object $questiondata the question data loaded from the database.
+     */
     protected function initialise_question_instance(question_definition $question, $questiondata) {
         parent::initialise_question_instance($question, $questiondata);
         $this->initialise_question_answers($question, $questiondata);
@@ -116,79 +158,57 @@ class qtype_regexmatchcloze extends question_type {
          * @var qtype_regexmatchcloze_question $q
          */
         $q = $question;
-        $maxPoints = 0.0;
+        $maxpoints = 0.0;
         foreach ($q->answers as $answer) {
-            $maxPoints += $answer->points;
+            $maxpoints += $answer->points;
         }
-        $question->defaultmark = $maxPoints;
+        $question->defaultmark = $maxpoints;
     }
 
-    public function import_from_xml($data, $question, qformat_xml $format, $extra = null) {
-        global $CFG;
-        require_once($CFG->dirroot.'/question/type/regexmatchcloze/question.php');
-
+    /**
+     * @param $data mixed import data
+     * @param $question mixed unused
+     * @param qformat_xml $format import format
+     * @param $extra mixed unused
+     * @return false|object
+     */
+    public function import_from_xml($data, $question, qformat_xml $format, $extra=null) {
         $question_type = $data['@']['type'];
         if ($question_type != $this->name()) {
             return false;
         }
 
         $qo = $format->import_headers($data);
-        $qo->qtype = $data['@']['type'];
+        $qo->qtype = $question_type;
 
         // Run through the answers.
         $answers = $data['#']['answer'];
-        $acount = 0;
-
-        $qo->answer = [];
-        $qo->answerformat = [];
-        $qo->fraction = [];
-        $qo->feedback = [];
-        $qo->feedbackformat = [];
-
+        $a_count = 0;
         foreach ($answers as $answer) {
-            $ans = $format->import_answer($answer, false, $format->get_format($qo->questiontextformat));
-            $qo->answer[$acount] = $ans->answer['text'];
-            $qo->fraction[$acount] = $ans->fraction;
-            $qo->feedback[$acount] = $ans->feedback;
-            ++$acount;
+            $ans = $format->import_answer($answer);
+            if (!$this->has_html_answers()) {
+                $qo->answer[$a_count] = $ans->answer['text'];
+            } else {
+                $qo->answer[$a_count] = $ans->answer;
+            }
+            $qo->fraction[$a_count] = $ans->fraction;
+            $qo->feedback[$a_count] = $ans->feedback;
+            ++$a_count;
         }
-
-        $format->import_hints($qo, $data);
         return $qo;
     }
 
     /**
-     * @param qtype_regexmatchcloze_question $question
-     * @param qformat_xml $format
-     * @param $extra
-     * @return string
+     * @param $question qtype_regexmatchcloze_question question to export
+     * @param qformat_xml $format format to export to
+     * @param $extra unused
+     * @return string exported
      */
-    public function export_to_xml($question, qformat_xml $format, $extra = null) {
-        $expout = parent::export_to_xml($question, $format, $extra);
-
-        if(!$expout)
-            $expout = '';
-
-        $extraanswersfields = $this->extra_answer_fields();
-        if (is_array($extraanswersfields))
-            array_shift($extraanswersfields);
+    public function export_to_xml($question, qformat_xml $format, $extra=null) {
 
         foreach ($question->options->answers as $answer) {
-            $extra = '';
-            if (is_array($extraanswersfields)) {
-                foreach ($extraanswersfields as $field) {
-                    if(!isset($answer->$field) || $answer->$field == 0)
-                        continue;
-                    $exportedvalue = $format->xml_escape($answer->$field);
-                    $extra .= "      <{$field}>{$exportedvalue}</{$field}>\n";
-                }
-            }
-
-            $expout .= $format->write_answer($answer, $extra);
+            $expout .= $format->write_answer($answer);
         }
-
-        $expout .= $format->write_hints($question);
-
         return $expout;
     }
 }
