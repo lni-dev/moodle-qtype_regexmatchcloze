@@ -17,7 +17,7 @@
 /**
  * regexmatchcloze question definition class.
  *
- * @package    qtype
+ * @package    qtype_regexmatchcloze
  * @subpackage regexmatchcloze
  * @copyright  2025 Linus Andera (linus@linusdev.de)
 
@@ -34,7 +34,13 @@ if (!class_exists('qtype_regexmatch_common_regex')) {
 /**
  * @var array Allowed keys for regexmatch cloze
  */
-const QTYPE_REGEXMATCH_CLOZE_ALLOWED_KEYS = array(QTYPE_REGEXMATCH_COMMON_SEPARATOR_KEY, QTYPE_REGEXMATCH_COMMON_POINTS_KEY, QTYPE_REGEXMATCH_COMMON_SIZE_KEY, QTYPE_REGEXMATCH_COMMON_FEEDBACK_KEY,  QTYPE_REGEXMATCH_COMMON_COMMENT_KEY);
+const QTYPE_REGEXMATCH_CLOZE_ALLOWED_KEYS = array(
+    QTYPE_REGEXMATCH_COMMON_SEPARATOR_KEY, 
+    QTYPE_REGEXMATCH_COMMON_POINTS_KEY,
+    QTYPE_REGEXMATCH_COMMON_SIZE_KEY,
+    QTYPE_REGEXMATCH_COMMON_FEEDBACK_KEY,
+    QTYPE_REGEXMATCH_COMMON_COMMENT_KEY
+);
 /**
  * @var array Allowed options for regexmatch cloze
  */
@@ -63,12 +69,12 @@ class qtype_regexmatchcloze_question extends question_graded_automatically {
      */
     public function is_complete_response(array $response) {
         foreach ($this->answers as $answer) {
-            if(!array_key_exists($this->get_answer_field_name($answer), $response)) {
+            if (!array_key_exists($this->get_answer_field_name($answer), $response)) {
                return false;
             }
             $submittedanswer = $response[$this->get_answer_field_name($answer)];
 
-            if($submittedanswer === null || $submittedanswer === '')
+            if ($submittedanswer === null || $submittedanswer === '')
                 return false;
         }
         return true;
@@ -83,12 +89,12 @@ class qtype_regexmatchcloze_question extends question_graded_automatically {
      */
     public function is_gradable_response(array $response) {
         foreach ($this->answers as $answer) {
-            if(!array_key_exists($this->get_answer_field_name($answer), $response)) {
+            if (!array_key_exists($this->get_answer_field_name($answer), $response)) {
                 continue;
             }
             $submittedanswer = $response[$this->get_answer_field_name($answer)];
 
-            if($submittedanswer !== null && $submittedanswer !== '') {
+            if ($submittedanswer !== null && $submittedanswer !== '') {
                 return true;
             }
         }
@@ -117,7 +123,7 @@ class qtype_regexmatchcloze_question extends question_graded_automatically {
      */
     public function is_same_response(array $prevresponse, array $newresponse) {
         foreach ($this->answers as $answer) {
-            if(!question_utils::arrays_same_at_key($prevresponse, $newresponse, $this->get_answer_field_name($answer)))
+            if (!question_utils::arrays_same_at_key($prevresponse, $newresponse, $this->get_answer_field_name($answer)))
                 return false;
         }
 
@@ -183,11 +189,11 @@ class qtype_regexmatchcloze_question extends question_graded_automatically {
             $maxpoints += $answer->points;
             $submittedanswer = $response[$this->get_answer_field_name($answer)] ?? null;
 
-            if($submittedanswer == null)
+            if ($submittedanswer == null)
                 continue;
 
             $res = $this->get_regex_for_answer($answer, $submittedanswer);
-            if($res != null)
+            if ($res != null)
                 $userpoints += $res[0];
         }
 
@@ -258,9 +264,9 @@ class qtype_regexmatchcloze_question extends question_graded_automatically {
         foreach ($answer->regexes as $regex) {
             $value = qtype_regexmatch_common_try_regex($answer, $regex, $submittedanswer);
 
-            if($value > 0.0) {
+            if ($value > 0.0) {
                 $points = $answer->points * $value * ($regex->percent / 100.0);
-                if($ret == null || $points > $ret[0]) {
+                if ($ret == null || $points > $ret[0]) {
                     $ret = array($points, $regex);
                 }
             }
@@ -277,9 +283,9 @@ class qtype_regexmatchcloze_question extends question_graded_automatically {
      */
     public function get_question_state_for_answer(qtype_regexmatch_common_answer $answer, string $submittedAnswer) {
         $ret = $this->get_regex_for_answer($answer, $submittedAnswer);
-        if($ret == null || $ret[0] == 0)
+        if ($ret == null || $ret[0] == 0)
             return question_state::$gradedwrong;
-        else if($ret[0] == $answer->points)
+        else if ($ret[0] == $answer->points)
             return question_state::$gradedright;
         return question_state::$gradedpartial;
     }
