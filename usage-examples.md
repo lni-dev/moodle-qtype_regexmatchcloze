@@ -1,9 +1,10 @@
-# Regexmatch and Regexmatch Cloze usage examples
+# Regexmatch Cloze usage examples
 
-This file contains some example regular expressions which can be used within Regexmatch
+This file contains some example regular expressions which can be used within Regexmatch Cloze
 
 ## Some basic examples
-Here are a few examples for simple regular expressions with only the default options enabled.
+Here are a few examples for simple regular expressions with only the default options enabled. For the sake of readability
+the keys `points=` and `size=` are omitted.
 
 | regular expression  | matches (not a complete list)           | description                                                      |
 |---------------------|-----------------------------------------|------------------------------------------------------------------|
@@ -17,12 +18,24 @@ Here are a few examples for simple regular expressions with only the default opt
 | `[[\*]]`            | `*`                                     | `\` is the escape character for .^$*+-?()[]{}\\\|                |
 | `[[a{3, 6}]]//`     | `aaa`, `aaaa`, `aaaaa`, `aaaaaa`        | `{n,m}` matches Between n and m times                            |
 
+## Regexmatch Cloze question text syntax
+The question text can contain multiple gaps. The gaps are introduced using double square brackets with the gap number
+inside: `[[1]]`. The order of the gaps does not matter. Duplicated gaps are not allowed. Each gap must be defined.
 
-## Regexmatch Syntax
-Regular expressions in Regexmatch consist of the regex, options and keys: 
+**Example question text**
 ```
-[[regex]]/OPTIONS/
+This is an example question text with multiple [[1]]. The amount of gaps in this text is [[2]].
+```
+
+## Regexmatch Cloze Gap Syntax
+```
+[[regex]] /OPTIONS/
+%50 [[another regex with half the points]] /OPTIONS/
+%10 [[another regex with 10% points]] /OPTIONS/
 separator=,
+points=5
+size=10
+feedback=text
 comment=text
 ```
 The `regex` uses the default syntax of regular expressions in PHP (without the requirement of a delimiter or the ability
@@ -34,40 +47,64 @@ The `OPTIONS` described in [Options](#options).<br>
 The following is a valid regular expressions with no options changed that match `abc`:
 ```
 [[abc]]//
+points=1
+size=4
 ```
 The following is a valid regular expressions that matches `abc` and has some options set:
 ```
 [[abc]]/I/
+points=1
+size=4
 ```
 Additionally, all new lines and spaces before the options will be ignored. This means the following regular expressions are the same
 as the previous one:
 ```
 [[abc]]
 /I/
+points=1
+size=4
 ```
 ```
 [[abc]]     /I/
+points=1
+size=4
 ```
 ```
 [[abc]]
 
 /I/
+points=1
+size=4
 ```
-## Regexmatch Cloze Syntax
+
+### Example
+**Question text**
 ```
-[[regex]] /OPTIONS/
-%50 [[another regex with half the points]] /OPTIONS/
-%10 [[another regex with 10% points]] /OPTIONS/
-separator=,
+The command [[1]] prints the content of the current directory in a readable table.
+Additionally, the output can be redirected using a [[2]].
+```
+**Definition Gap 1**
+```
+[[ls -la]]//
+%50 [[ls]]//
+points=5
+size=20
+feedback=The correct answer is "ls -la" or "ls" (50%)
+comment=
+```
+**Definition Gap 2**
+[[pipe]]/I/
+%100 [[\|]]//
 points=5
 size=10
-feedback=text
-comment=text
-```
-TODO
+feedback=The correct answer is "pipe" or "|"
+comment=
 
-### Examples
-TODO
+**View for the student**
+```
+The command ____________________ prints the content of the current directory in a readable table.
+Additionally, the output can be redirected using a __________.
+```
 
 ## Keys
 Regexmatch supports the keys `comment=` and `separator=`. 
@@ -97,10 +134,11 @@ Some options are enabled by default. These are called default options.
 |   s    | Infinite Space       |    x    |
 |   t    | Trim Spaces          |    x    |
 
+In the following sections the keys `points=` and `size=` are often omitted for the sake of readability.
 
 ### I: Ignore Case
 This option makes the regular expression ignore case.
-For example the regular expression `abc/I/` will match `abc`, `Abc`, `ABC`, `aBc`, etc. This option acts exactly as
+For example the regular expression `[[abc]]/I/` will match `abc`, `Abc`, `ABC`, `aBc`, etc. This option acts exactly as
 the PCRE option `IGNORE_CASE`.
 
 ### D: Dot All
@@ -182,6 +220,8 @@ The regular expression
 ```
 [[cat]] [[dog]] [[alpaca]] /O/
 separator=,
+points=5
+size=10
 ```
 or (new lines are allowed)
 ```
@@ -190,6 +230,8 @@ or (new lines are allowed)
 [[alpaca]]
 /O/
 separator=,
+points=5
+size=10
 ```
 will match any of the following example answers with 100% correctness.
 

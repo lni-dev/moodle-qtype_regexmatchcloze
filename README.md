@@ -1,7 +1,6 @@
 # Regexmatch Cloze
 
 ## TODO
-- test backup/restore
 - usage examples + link in help button
 
 ## Moodle Installation
