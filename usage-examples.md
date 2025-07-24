@@ -1,8 +1,8 @@
-# Regexmatch Cloze usage examples
+# Regexmatch Cloze Usage Examples
 
 This file contains some example regular expressions which can be used within Regexmatch Cloze
 
-## Some basic examples
+## Some Basic Examples
 Here are a few examples for simple regular expressions with only the default options enabled. For the sake of readability
 the keys `points=` and `size=` are omitted.
 
@@ -18,7 +18,7 @@ the keys `points=` and `size=` are omitted.
 | `[[\*]]`            | `*`                                     | `\` is the escape character for .^$*+-?()[]{}\\\|                |
 | `[[a{3, 6}]]//`     | `aaa`, `aaaa`, `aaaaa`, `aaaaaa`        | `{n,m}` matches Between n and m times                            |
 
-## Regexmatch Cloze question text syntax
+## Regexmatch Cloze Question Text Syntax
 The question text can contain multiple gaps. The gaps are introduced using double square brackets with the gap number
 inside: `[[1]]`. The order of the gaps does not matter. Duplicated gaps are not allowed. Each gap must be defined.
 
@@ -254,12 +254,12 @@ alpaca,cat,elephant
 alpaca,cat,dog,elephant
 ```
 
-### I: Infinite Space
-This option is enabled by default and can be disabled by specifying the letter `I` in the options.
+### S: Infinite Space
+This option is enabled by default and can be disabled by specifying the letter `S` in the options.
 If this option is enabled all spaces will be replaced with `([ \t]+)`. Thereby they match one or more whitespace characters.
 
 #### Examples
-The regular expression `some test sentence` will match any of the following example answers:
+The regular expression `[[some test sentence]]//` will match any of the following example answers:
 - `some test sentence`
 - `some     test     sentence`
 
@@ -287,6 +287,6 @@ and also the following example answer
 
 ```
 
-## Common Mistakes and special cases
+## Common Mistakes and Special Cases
 - If the regular expression contains spaces at the end of a line these must also be contained in the answer.
-- If you encounter a problem with a complex regular expression, try to disable the Infinite Space (`i`) option.
+- If you encounter a problem with a complex regular expression, try to disable the Infinite Space (`s`) option.
