@@ -93,12 +93,14 @@ feedback=The correct answer is "ls -la" or "ls" (50%)
 comment=
 ```
 **Definition Gap 2**
+```
 [[pipe]]/I/
 %100 [[\|]]//
 points=5
 size=10
 feedback=The correct answer is "pipe" or "|"
 comment=
+```
 
 **View for the student**
 ```
