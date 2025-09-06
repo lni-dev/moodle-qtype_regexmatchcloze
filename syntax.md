@@ -5,7 +5,7 @@ This file contains information used for both the regexmatchcloze question type.
 Legend:
 - `<options>`: Options specified by a single letter.
 - `<regex>`, `<regex-x>`: Regular expressions.
-- `<percent-x>`: Percentage of maximal points for alternative regex. Must be between `1` and `100`.
+- `<percent-x>`: Percentage of maximal points for alternative regex. Must be between `0` and `100`.
 - `<separator-char>`: separator the student must use, if the match any order option ist enabled.
 - `<comment-text>`: comment. Only visible to the editor. Must not contain `/` as last character. Single line.
 - `<points>`: max possible points for this gap. Decimal number greater than zero.
