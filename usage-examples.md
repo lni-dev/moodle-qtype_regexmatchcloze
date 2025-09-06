@@ -44,9 +44,10 @@ to specify modifiers). The internet provides vast amounts of information on how 
 - Test regexes directly in the browser [here](https://regex101.com/) (Select `PCRE2` flavor).
 
 Expressions like `%50 [[another regex with half the points]] /OPTIONS/` describe an alternative solution, which give a percentage of points. The percentage must be
-between `0` and `100`.<br><br>
+between `0` and `100`.<br>
 
-The `OPTIONS` are described in [Options](#options).<br><br>
+The `OPTIONS` are described in [Options](#options).<br>
+
 The following is a valid regular expressions with no options changed that match `abc`:
 ```
 [[abc]]//
