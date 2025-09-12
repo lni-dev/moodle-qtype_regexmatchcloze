@@ -55,7 +55,7 @@ Das folgende Beispiel findet `ls -la` (5 Punkte) und `ls` (1 Punkt). Keine extra
 %20 [[ls]]//
 points=5
 ```
-Eine genauere Beschreibung (mit weiteren Beispielen) findet sich [hier](https://github.com/lni-dev/moodle-qtype_regexmatch/blob/regexmatchcloze_dev/usage-examples.md).
+Eine genauere Beschreibung (mit weiteren Beispielen) findet sich [hier](https://github.com/lni-dev/moodle-qtype_regexmatchcloze/blob/master/usage-examples.md).
 
 Die Schlüssel `separator`, `points`, `size`, `feedback` und `comment` sind Optional. `separator=` wird in dem Hilfefeld zu den Optionen beschrieben.
 
@@ -134,7 +134,7 @@ der Antwort vorkommen.
 Der reguläre Ausdruck sollte aus mindestens zwei regulären Ausdrucken bestehen (`[[regex1]] [[regex2]]`), da bei nur einem regulären Ausdruck die Option nicht verändert.
 Die Antworten (Von dem Wert des Schlüssels `separator=` getrennt. Standardmäßig ein Zeilenumbruch.) müssen von einem der regulären Ausdrücke gefunden werden, die
 Reihenfolge ist allerdings egal. Jeder regulärer Ausdruck kann nur einmal gefunden werden. Es werden auch Teilmengen gefunden, die Teilpunkte geben. Genaue Berechnung der
-Punktzahl findet sich [hier](https://github.com/lni-dev/moodle-qtype_regexmatch/blob/master/usage-examples.md#evaluation).
+Punktzahl findet sich [hier](https://github.com/lni-dev/moodle-qtype_regexmatchcloze/blob/master/usage-examples.md#evaluation).
 ';
 $string['default_options_help'] = /* @lang Markdown */
     'Die folgenden Optionen sind standardmäßig aktiviert und können durch Angabe des jeweiligen (kleinen) Buchstaben deaktiviert werden.

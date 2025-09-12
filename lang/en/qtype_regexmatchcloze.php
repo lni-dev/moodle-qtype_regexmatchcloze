@@ -55,7 +55,7 @@ The following example matches `ls -la` (5 points) and `ls` (1 point). No extra o
 %20 [[ls]]//
 points=5
 ```
-A more concrete description (with examples) can be found [here](https://github.com/lni-dev/moodle-qtype_regexmatch/blob/regexmatchcloze_dev/usage-examples.md).
+A more concrete description (with examples) can be found [here](https://github.com/lni-dev/moodle-qtype_regexmatchcloze/blob/master/usage-examples.md).
 
 The keys `separator`, `points`, `size`, `feedback` and `comment` are optional. `separator` is described in help-field of the options.
 `points` describes the maximum points for this gap (default: 1).
