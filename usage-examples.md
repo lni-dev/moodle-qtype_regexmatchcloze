@@ -1,8 +1,8 @@
-# Regexmatch Cloze usage examples
+# Regexmatch Cloze Usage Examples
 
 This file contains some example regular expressions which can be used within Regexmatch Cloze
 
-## Some basic examples
+## Some Basic Examples
 Here are a few examples for simple regular expressions with only the default options enabled. For the sake of readability
 the keys `points=` and `size=` are omitted.
 
@@ -18,7 +18,7 @@ the keys `points=` and `size=` are omitted.
 | `[[\*]]`            | `*`                                     | `\` is the escape character for .^$*+-?()[]{}\\\|                |
 | `[[a{3, 6}]]//`     | `aaa`, `aaaa`, `aaaaa`, `aaaaaa`        | `{n,m}` matches Between n and m times                            |
 
-## Regexmatch Cloze question text syntax
+## Regexmatch Cloze Question Text Syntax
 The question text can contain multiple gaps. The gaps are introduced using double square brackets with the gap number
 inside: `[[1]]`. The order of the gaps does not matter. Duplicated gaps are not allowed. Each gap must be defined.
 
@@ -43,7 +43,11 @@ to specify modifiers). The internet provides vast amounts of information on how 
 - A very good (but technical) explanation for different regex syntax can be found [here](https://stackoverflow.com/questions/22937618/reference-what-does-this-regex-mean/22944075#22944075).
 - Test regexes directly in the browser [here](https://regex101.com/) (Select `PCRE2` flavor).
 
-The `OPTIONS` described in [Options](#options).<br>
+Expressions like `%50 [[another regex with half the points]] /OPTIONS/` describe an alternative solution, which give a percentage of points. The percentage must be
+between `0` and `100`.<br>
+
+The `OPTIONS` are described in [Options](#options).<br>
+
 The following is a valid regular expressions with no options changed that match `abc`:
 ```
 [[abc]]//
@@ -93,12 +97,14 @@ feedback=The correct answer is "ls -la" or "ls" (50%)
 comment=
 ```
 **Definition Gap 2**
+```
 [[pipe]]/I/
 %100 [[\|]]//
 points=5
 size=10
 feedback=The correct answer is "pipe" or "|"
 comment=
+```
 
 **View for the student**
 ```
@@ -107,11 +113,6 @@ Additionally, the output can be redirected using a __________.
 ```
 
 ## Keys
-Regexmatch supports the keys `comment=` and `separator=`. 
-- `comment=` is a text field only visible inside the question edit form and has no other use.
-- `separator=` is a field for the separator the student has to enter between his answers if the Match Any Order option (`O`).
-  is enabled.
-
 Regexmatch Cloze supports the keys `separator=`, `points=`, `size=`, `feedback=` and `comment=`.
 - `separator=` is a field for the separator the student has to enter between his answers if the Match Any Order option (`O`).
 - `points=` defines the maximum points for this gap.
@@ -254,12 +255,12 @@ alpaca,cat,elephant
 alpaca,cat,dog,elephant
 ```
 
-### I: Infinite Space
-This option is enabled by default and can be disabled by specifying the letter `I` in the options.
+### S: Infinite Space
+This option is enabled by default and can be disabled by specifying the letter `S` in the options.
 If this option is enabled all spaces will be replaced with `([ \t]+)`. Thereby they match one or more whitespace characters.
 
 #### Examples
-The regular expression `some test sentence` will match any of the following example answers:
+The regular expression `[[some test sentence]]//` will match any of the following example answers:
 - `some test sentence`
 - `some     test     sentence`
 
@@ -287,6 +288,6 @@ and also the following example answer
 
 ```
 
-## Common Mistakes and special cases
+## Common Mistakes and Special Cases
 - If the regular expression contains spaces at the end of a line these must also be contained in the answer.
-- If you encounter a problem with a complex regular expression, try to disable the Infinite Space (`i`) option.
+- If you encounter a problem with a complex regular expression, try to disable the Infinite Space (`s`) option.
