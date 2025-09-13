@@ -96,8 +96,8 @@ feedback=The correct answer is "red", "green" (50%) and "blue" (20%)
 comment=text
 ```
 This is a gap with 5 points.
-- The correct answer is for example `red,green,blue` or `RED,GREEN,BLUE`.
-- The answer `one,two,three` gives 2.5 points.
+- The answer `one,two,three` or `ONE,TWO,THREE` is correct (5 points).
+- The answer `red,green,blue` or `RED,GREEN,BLUE` gives 2.5 points.
 
 ## Options (`<options>`)
 Each option is enabled or disabled by a single letter. A capital letter enables
@@ -107,13 +107,13 @@ The following options exist:
 
 | Letter | Name                 | Default |
 |:------:|----------------------|:-------:|
-|   I    | Ignore Case          |         |
-|   D    | Dot All              |         |
-|   P    | Pipes and Semicolons |         |
-|   R    | Redirects            |         |
-|   O    | Match Any Order      |         |
-|   s    | Infinite Space       |    x    |
-|   t    | Trim Spaces          |    x    |
+|   I    | Ignore Case          |   no    |
+|   D    | Dot All              |   no    |
+|   P    | Pipes and Semicolons |   no    |
+|   R    | Redirects            |   no    |
+|   O    | Match Any Order      |   no    |
+|   s    | Infinite Space       |   YES   |
+|   t    | Trim Spaces          |   YES   |
 
 ## Regex (`<regex>`, `<regex-x>`)
 Regular expression in the PHP-PCRE syntax.
