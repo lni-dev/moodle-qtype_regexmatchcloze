@@ -23,7 +23,7 @@
 
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-$string['pluginname'] = 'regexmatchcloze';
+$string['pluginname'] = 'Regexmatch Lückentext';
 $string['pluginname_help'] = 'Erstelle einen Regexmatch Lückentext Fragetypen. Bei dem jede Lücke durch reguläre Ausdrücke definiert werden kann';
 $string['pluginname_link'] = 'question/type/regexmatchcloze';
 $string['pluginnameadding'] = 'Hinzufügen einer Regexmatch Lückentext Frage';
