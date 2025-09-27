@@ -23,7 +23,7 @@
 
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-$string['pluginname'] = 'regexmatchcloze';
+$string['pluginname'] = 'Regexmatch Cloze';
 $string['pluginname_help'] = 'Create a Regexmatch Cloze question type where every gap is defined through regular expressions.';
 $string['pluginname_link'] = 'question/type/regexmatchcloze';
 $string['pluginnameadding'] = 'Adding a Regexmatch Cloze question';
