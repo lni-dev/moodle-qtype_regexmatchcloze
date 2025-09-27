@@ -117,7 +117,7 @@ Regexmatch Cloze supports the keys `separator=`, `points=`, `size=`, `feedback=`
 - `separator=` is a field for the separator the student has to enter between his answers if the Match Any Order option (`O`).
 - `points=` defines the maximum points for this gap. The default value is `1.0`.
 - `size=` defines the size of the input field for this gap. The default value is `5`.
-- `feedack` defines the feedback for this gap which is communicated to the students.
+- `feedback` defines the feedback for this gap which is communicated to the students.
 - `comment=` is a text field only visible inside the question edit form and has no other use.
   This enables the author of the question to save some internal information.
 
