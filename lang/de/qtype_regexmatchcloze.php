@@ -156,3 +156,4 @@ $string['valerror_pointsmustbenum'] = 'Die Variable \'points=\' muss auf eine po
 $string['valerror_illegalsyntaxspecific'] = 'Ungültige Syntax: "{$a}".';
 $string['valerror_sizemustbenum'] = 'Die Variable \'size=\' muss auf eine positive natürliche Zahl, die nicht null ist, gesetzt werden.';
 $string['valerror_illegalchar'] = 'Ungültige Syntax: "{$a->context}": Ungültiges Zeichen "{$a->actual}". Erwartet wird "{$a->expected}".';
+$string['privacy:metadata'] = 'Regexmatch Fragetyp Plugin hat keine User Einstellungen.';

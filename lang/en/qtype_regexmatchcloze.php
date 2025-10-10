@@ -147,3 +147,4 @@ $string['valerror_pointsmustbenum'] = 'The variable \'points=\' must be set to a
 $string['valerror_sizemustbenum'] = 'The variable \'size=\' must be set to a non-zero positive integer.';
 $string['valerror_illegalsyntaxspecific'] = 'Illegal syntax: "{$a}".';
 $string['valerror_illegalchar'] = 'Illegal syntax: "{$a->context}": Illegal character "{$a->actual}", but expected "{$a->expected}".';
+$string['privacy:metadata'] = 'Regexmatch question type plugin does not support any user preferences.';
