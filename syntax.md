@@ -92,7 +92,7 @@ This is a gap with 5 points.
 separator=,
 points=5 
 size=20
-feedback=The correct answer is "red", "green" (50%) and "blue" (20%)
+feedback=The correct answer is "one,two,three" or "red,green,blue" (50%)
 comment=text
 ```
 This is a gap with 5 points.
