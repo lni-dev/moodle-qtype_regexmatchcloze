@@ -148,4 +148,4 @@ $string['valerror_sizemustbenum'] = 'The variable \'size=\' must be set to a non
 $string['valerror_illegalsyntaxspecific'] = 'Illegal syntax: "{$a}".';
 $string['valerror_illegalsyntaxspecificwithpercent'] = 'Illegal syntax: "{$a}". Alternative answers must start with a "%"';
 $string['valerror_illegalchar'] = 'Illegal syntax: "{$a->context}": Illegal character "{$a->actual}", but expected "{$a->expected}".';
-$string['privacy:metadata'] = 'Regexmatch question type plugin does not support any user preferences.';
+$string['privacy:metadata'] = 'Regexmatch question type plugin does store any personal data.';
