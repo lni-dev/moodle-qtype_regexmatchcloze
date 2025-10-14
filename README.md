@@ -76,8 +76,7 @@ The supported moodle version must be set in `version.php.
 ### database errors after installation
 - Check the state of the required databases using the Moodle Adminer Plugin
   (`Site administration` > `Server` > `Moodle Adminer`)
-  and "repair" the database using a customized version with a `update.php`, which
-  will repair the database. It is possible, that simply allowing `update.php` to run again
+  and "repair" the database using a customized `update.php`. It is possible, that simply allowing `update.php` to run again
   may fix the problem.
 
 ### Uninstalling the plugin
