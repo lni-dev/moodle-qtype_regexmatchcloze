@@ -17,7 +17,6 @@ To install using git for the latest version (the master branch), type this comma
 ```
 git clone --recurse-submodules https://github.com/lni-dev/moodle-qtype_regexmatchcloze.git regexmatchcloze
 ```
-Note: Repository is currently private.
 After the installation the moodle administration website `Website Administration` must be visited.
 
 ## Regexmatch Cloze Installation/Update (for normal use)
