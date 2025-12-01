@@ -174,9 +174,13 @@ class qtype_regexmatchcloze_edit_form extends question_edit_form {
                                     return $errors;
                                 }
 
-                                preg_match("/%[0-9]+/", $remaining, $percentmatch);
-                                $percent = substr($percentmatch[0], 1);
-                                $percentoffset = strlen($percentmatch[0]);
+                                if(!preg_match("/%[0-9]+/", $remaining, $percentmatch)) {
+                                    $percent = -1;
+                                    $percentoffset = 0;
+                                } else {
+                                    $percent = substr($percentmatch[0], 1);
+                                    $percentoffset = strlen($percentmatch[0]);
+                                }
                             }
 
                             if ($percent < 0 || $percent > 100) {
@@ -281,7 +285,11 @@ class qtype_regexmatchcloze_edit_form extends question_edit_form {
                                     }
 
                                 } else {
-                                    $errors["answer[$key]"] = get_string('valerror_illegalsyntaxspecific', 'qtype_regexmatchcloze', $keyvaluepair);
+                                    if(str_contains($keyvaluepair, "%")) {
+                                        $errors["answer[$key]"] = get_string('valerror_illegalsyntaxspecificwithpercent', 'qtype_regexmatchcloze', $keyvaluepair);
+                                    } else {
+                                        $errors["answer[$key]"] = get_string('valerror_illegalsyntaxspecific', 'qtype_regexmatchcloze', $keyvaluepair);
+                                    }
                                 }
                             }
                         }

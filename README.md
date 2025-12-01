@@ -15,9 +15,8 @@ References for installation on Windows and Ubuntu are given below.
 To install using git for the latest version (the master branch), type this command in the
 `<moodle-installation>/question/type` folder of your Moodle install:
 ```
-git clone https://github.com/lni-dev/moodle-qtype_regexmatchcloze.git regexmatchcloze
+git clone --recurse-submodules https://github.com/lni-dev/moodle-qtype_regexmatchcloze.git regexmatchcloze
 ```
-Note: Repository is currently private.
 After the installation the moodle administration website `Website Administration` must be visited.
 
 ## Regexmatch Cloze Installation/Update (for normal use)
@@ -77,8 +76,7 @@ The supported moodle version must be set in `version.php.
 ### database errors after installation
 - Check the state of the required databases using the Moodle Adminer Plugin
   (`Site administration` > `Server` > `Moodle Adminer`)
-  and "repair" the database using a customized version with a `update.php`, which
-  will repair the database. It is possible, that simply allowing `update.php` to run again
+  and "repair" the database using a customized `update.php`. It is possible, that simply allowing `update.php` to run again
   may fix the problem.
 
 ### Uninstalling the plugin

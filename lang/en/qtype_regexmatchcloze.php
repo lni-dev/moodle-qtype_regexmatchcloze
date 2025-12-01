@@ -147,4 +147,6 @@ $string['valerror_illegalpercentage'] = 'Percentage must be between 0 and 100.';
 $string['valerror_pointsmustbenum'] = 'The variable \'points=\' must be set to a non-zero positive number.';
 $string['valerror_sizemustbenum'] = 'The variable \'size=\' must be set to a non-zero positive integer.';
 $string['valerror_illegalsyntaxspecific'] = 'Illegal syntax: "{$a}".';
+$string['valerror_illegalsyntaxspecificwithpercent'] = 'Illegal syntax: "{$a}". Alternative answers must start with a "%"';
 $string['valerror_illegalchar'] = 'Illegal syntax: "{$a->context}": Illegal character "{$a->actual}", but expected "{$a->expected}".';
+$string['privacy:metadata'] = 'Regexmatch question type plugin does store any personal data.';
