@@ -111,7 +111,7 @@ class qtype_regexmatchcloze_question extends question_graded_automatically {
         if ($this->is_gradable_response($response)) {
             return '';
         }
-        return get_string('pleaseenterananswer', 'qtype_regexmatch');
+        return get_string('pleaseenterananswer', 'qtype_regexmatchcloze');
     }
 
     /**

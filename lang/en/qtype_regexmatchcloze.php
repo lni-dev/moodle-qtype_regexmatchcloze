@@ -137,6 +137,7 @@ All Spaces will be replaced with `([ \t]+)`. Thereby they match one or more whit
 All trailing and leading empty lines in the answer, as well as all trailing and leading
 spaces of every line in the answer, will be ignored. Trailing empty lines will always be
 ignored, even if this option is disabled.';
+$string['pleaseenterananswer'] = 'Please enter a answer.';
 $string['dollarroofmustbeescaped'] = 'The regex anchors "$" and "^" cannot be used. If they should be matched as literals, they can be escaped: "\\$", "\\^"';
 $string['valerror_illegalsyntax'] = 'Illegal syntax.';
 $string['valerror_illegaloption'] = 'Illegal option "{$a}".';

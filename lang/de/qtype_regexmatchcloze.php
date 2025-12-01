@@ -146,6 +146,7 @@ Alle Leerzeichen innerhalb des Ausdrucks werden mit `([ \t]+)` ersetzt. Dadurch 
 Leerzeilen zu Beginn und am Ende der Antwort, sowie Leerzeichen zu Beginn und am Ende jeder Zeile
 der Antwort, werden ignoriert. Leerzeilen am Ende der Antwort werden immer ignoriert, egal ob diese
 Option aktiviert ist oder nicht.';
+$string['pleaseenterananswer'] = 'Bitte geben Sie eine Antwort ein.';
 $string['dollarroofmustbeescaped'] = 'Die Regex Anker "$" und "^" können nicht verwendet werden. Falls diese als Literal gesucht werden sollen, können sie escaped werden: "\\$", "\\^"';
 $string['valerror_illegalsyntax'] = 'Ungültige Syntax.';
 $string['valerror_illegaloption'] = 'Ungültige Option "{$a}".';
