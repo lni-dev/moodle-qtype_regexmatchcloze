@@ -1,5 +1,5 @@
 # Regexmatchcloze Syntax
-This file contains information used for both the regexmatchcloze question type.
+This file contains information used for the regexmatchcloze question type.
 
 ## Regexmatch Cloze Syntax
 Legend:
