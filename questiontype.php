@@ -77,12 +77,10 @@ class qtype_regexmatchcloze extends question_type {
                 $form->feedback[$key]['format'] = FORMAT_PLAIN;
                 $index = $key + 1;
                 $form->feedback[$key]['text'] = "$index"; // feedback text stores the answer index
-            }
 
-            $answer = new qtype_regexmatch_common_answer(
-                0, $form->answer[$key], 0, $form->feedback[$key]['text'], $form->feedbackformat[$key]
-            );
-            $maxpoints += $answer->points;
+                $answer = new qtype_regexmatch_common_answer(0, $form->answer[$key], 0, "$index", FORMAT_PLAIN);
+                $maxpoints += $answer->points;
+            }
         }
 
         $form->defaultmark = $maxpoints;
