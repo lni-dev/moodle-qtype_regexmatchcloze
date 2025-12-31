@@ -283,10 +283,13 @@ class qtype_regexmatchcloze_question extends question_graded_automatically {
     /**
      * Get the question state for given answer for given submitted answer
      * @param qtype_regexmatch_common_answer $answer the answer to get the state for
-     * @param string $submittedanswer answer submitted from a student
-     * @return question_state  question_state::$gradedwrong, question_state::$gradedright or question_state::$gradedpartial.
+     * @param string|null $submittedanswer answer submitted from a student
+     * @return question_state question_state::$gradedwrong, question_state::$gradedright or question_state::$gradedpartial.
      */
-    public function get_question_state_for_answer(qtype_regexmatch_common_answer $answer, string $submittedanswer) {
+    public function get_question_state_for_answer(qtype_regexmatch_common_answer $answer, $submittedanswer) {
+        if($submittedanswer == null)
+            return question_state::$gradedwrong;
+
         $ret = $this->get_regex_for_answer($answer, $submittedanswer);
         if ($ret == null || $ret[0] == 0) {
             return question_state::$gradedwrong;
