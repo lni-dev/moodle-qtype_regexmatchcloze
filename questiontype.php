@@ -68,6 +68,7 @@ class qtype_regexmatchcloze extends question_type {
      */
     public function save_question($question, $form) {
         // Since we are missing some fields in the ui we must set these to default values before saving.
+        $maxpoints = 0;
         foreach ($form->answer as $key => $answerdata) {
             $form->fraction[$key] = 0;
             $form->feedback[$key]['text'] = "";
@@ -77,7 +78,14 @@ class qtype_regexmatchcloze extends question_type {
                 $index = $key + 1;
                 $form->feedback[$key]['text'] = "$index"; // feedback text stores the answer index
             }
+
+            $answer = new qtype_regexmatch_common_answer(
+                0, $form->answer[$key], 0, $form->feedback[$key]['text'], $form->feedbackformat[$key]
+            );
+            $maxpoints += $answer->points;
         }
+
+        $form->defaultmark = $maxpoints;
 
         return parent::save_question($question, $form);
     }
