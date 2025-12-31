@@ -205,6 +205,8 @@ The answers (separated by the `separator=`) must match any of the sub-regexes,
 but order is not important. Each sub-regex can only be matched by a single answer. Wrong answers, too many or too few answers
 result in a point substraction in the evaluation.
 
+The separator can be surrounded by quotes ("). Useful if the separator should be a space character (example: `separator=" "`).
+
 #### Evaluation
 The evaluation of the answer is calculated based on an internal point system. The maximum amount of points (`maxPoints`) 
 is the same as the amount of sub-regexes. The answer will be rated with points using the following rules:
