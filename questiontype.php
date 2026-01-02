@@ -41,7 +41,6 @@ require_once($CFG->dirroot . '/question/type/regexmatchcloze/question.php');
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class qtype_regexmatchcloze extends question_type {
-
     /**
      * Response cannot be analysed, because the method get_possible_responses cannot be implemented.
      * @return false
