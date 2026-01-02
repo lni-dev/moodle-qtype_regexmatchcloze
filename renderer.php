@@ -76,7 +76,7 @@ class qtype_regexmatchcloze_renderer extends qtype_renderer {
                 $qs = $question->get_question_state_for_answer($answer, $submittedanswer);
                 $feedbackclass = $qs->get_feedback_class();
                 $inputattributes['class'] .= ' ' . $feedbackclass;
-                $feedbackimage = $this->output->pix_icon('i/grade_' . $feedbackclass, get_string($feedbackclass, 'question'));;
+                $feedbackimage = $this->output->pix_icon('i/grade_' . $feedbackclass, get_string($feedbackclass, 'question'));
             }
 
             $input = html_writer::empty_tag('input', $inputattributes) . $feedbackimage;
