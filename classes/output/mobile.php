@@ -34,7 +34,6 @@ defined('MOODLE_INTERNAL') || die();
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class mobile {
-
     /**
      * Returns the regexmatchcloze question type for the quiz the mobile app.
      *
@@ -46,7 +45,7 @@ class mobile {
             'templates' => [
                 [
                     'id' => 'main',
-                    'html' => file_get_contents($CFG->dirroot .'/question/type/regexmatchcloze/mobile/qtype-regexmatchcloze.html'),
+                    'html' => file_get_contents($CFG->dirroot . '/question/type/regexmatchcloze/mobile/qtype-regexmatchcloze.html'),
                     ],
             ],
             'javascript' => file_get_contents($CFG->dirroot . '/question/type/regexmatchcloze/mobile/mobile.js'),

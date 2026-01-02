@@ -283,7 +283,6 @@ class qtype_regexmatchcloze_edit_form extends question_edit_form {
                                             $errors["answer[$key]"] = get_string('valerror_unkownkey', 'qtype_regexmatchcloze', $match);
                                         }
                                     }
-
                                 } else {
                                     if (str_contains($keyvaluepair, "%")) {
                                         $errors["answer[$key]"] = get_string('valerror_illegalsyntaxspecificwithpercent', 'qtype_regexmatchcloze', $keyvaluepair);
@@ -295,7 +294,6 @@ class qtype_regexmatchcloze_edit_form extends question_edit_form {
                         }
                     }
                 }
-
             }
         }
 

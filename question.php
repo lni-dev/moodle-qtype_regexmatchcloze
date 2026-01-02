@@ -34,17 +34,17 @@ if (!class_exists('qtype_regexmatch_common_regex')) {
 /**
  * @var array Allowed keys for regexmatch cloze
  */
-const QTYPE_REGEXMATCH_CLOZE_ALLOWED_KEYS = array(
+const QTYPE_REGEXMATCH_CLOZE_ALLOWED_KEYS = [
     QTYPE_REGEXMATCH_COMMON_SEPARATOR_KEY,
     QTYPE_REGEXMATCH_COMMON_POINTS_KEY,
     QTYPE_REGEXMATCH_COMMON_SIZE_KEY,
     QTYPE_REGEXMATCH_COMMON_FEEDBACK_KEY,
     QTYPE_REGEXMATCH_COMMON_COMMENT_KEY,
-);
+];
 /**
  * @var array Allowed options for regexmatch cloze
  */
-const QTYPE_REGEXMATCH_CLOZE_ALLOWED_OPTIONS = array('I', 'D', 'P', 'R', 'O', 'S', 'T', 'i', 'd', 'p', 'r', 'o', 's', 't');
+const QTYPE_REGEXMATCH_CLOZE_ALLOWED_OPTIONS = ['I', 'D', 'P', 'R', 'O', 'S', 'T', 'i', 'd', 'p', 'r', 'o', 's', 't'];
 
 /**
  * Represents a regexmatchcloze question.
@@ -58,7 +58,7 @@ class qtype_regexmatchcloze_question extends question_graded_automatically {
     /**
      * @var array<qtype_regexmatch_common_answer> array containing all the allowed regexes
      */
-    public $answers = array();
+    public $answers = [];
 
     /**
      * Whether the given response can be considered complete. Meaning all gaps are filled.
@@ -142,7 +142,7 @@ class qtype_regexmatchcloze_question extends question_graded_automatically {
      *      meaning take all the raw submitted data belonging to this question.
      */
     public function get_expected_data() {
-        $arr = array();
+        $arr = [];
         foreach ($this->answers as $answer) {
             $arr[$this->get_answer_field_name($answer)] = PARAM_RAW;
         }
@@ -173,7 +173,7 @@ class qtype_regexmatchcloze_question extends question_graded_automatically {
      * @return array empty array
      */
     public function un_summarise_response(string $summary) {
-        return array();
+        return [];
     }
 
     /**
@@ -204,7 +204,7 @@ class qtype_regexmatchcloze_question extends question_graded_automatically {
 
         $fraction = $userpoints / $maxpoints;
 
-        return array($fraction, question_state::graded_state_for_fraction($fraction));
+        return [$fraction, question_state::graded_state_for_fraction($fraction)];
     }
 
     /**
@@ -235,13 +235,11 @@ class qtype_regexmatchcloze_question extends question_graded_automatically {
      * @param bool $forcedownload whether the user must be forced to download the file.
      * @return bool true if the user can access this file.
      */
-    public function check_file_access($qa, $options, $component, $filearea,
-                                      $args, $forcedownload) {
+    public function check_file_access($qa, $options, $component, $filearea, $args, $forcedownload) {
         if ($component == 'question' && $filearea == 'hint') {
             return $this->check_hint_file_access($qa, $options, $args);
         } else {
-            return parent::check_file_access($qa, $options, $component, $filearea,
-                $args, $forcedownload);
+            return parent::check_file_access($qa, $options, $component, $filearea, $args, $forcedownload);
         }
     }
 
@@ -263,7 +261,7 @@ class qtype_regexmatchcloze_question extends question_graded_automatically {
     public function get_regex_for_answer(qtype_regexmatch_common_answer $answer, string $submittedanswer) {
         $ret = null;
 
-        // remove \r from the answer, which should not be matched.
+        // Remove \r from the answer, which should not be matched.
         $submittedanswer = str_replace("\r", "", $submittedanswer);
 
         foreach ($answer->regexes as $regex) {
@@ -272,7 +270,7 @@ class qtype_regexmatchcloze_question extends question_graded_automatically {
             if ($value > 0.0) {
                 $points = $answer->points * $value * ($regex->percent / 100.0);
                 if ($ret == null || $points > $ret[0]) {
-                    $ret = array($points, $regex);
+                    $ret = [$points, $regex];
                 }
             }
         }
@@ -287,8 +285,9 @@ class qtype_regexmatchcloze_question extends question_graded_automatically {
      * @return question_state question_state::$gradedwrong, question_state::$gradedright or question_state::$gradedpartial.
      */
     public function get_question_state_for_answer(qtype_regexmatch_common_answer $answer, $submittedanswer) {
-        if($submittedanswer == null)
+        if($submittedanswer == null) {
             return question_state::$gradedwrong;
+        }
 
         $ret = $this->get_regex_for_answer($answer, $submittedanswer);
         if ($ret == null || $ret[0] == 0) {

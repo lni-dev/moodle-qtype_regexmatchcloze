@@ -176,7 +176,7 @@ class qtype_regexmatchcloze extends question_type {
      * @param mixed $extra unused
      * @return false|object
      */
-    public function import_from_xml($data, $question, qformat_xml $format, $extra=null) {
+    public function import_from_xml($data, $question, qformat_xml $format, $extra = null) {
         $questiontype = $data['@']['type'];
         if ($questiontype != $this->name()) {
             return false;
@@ -209,7 +209,7 @@ class qtype_regexmatchcloze extends question_type {
      * @param mixed $extra unused
      * @return string exported
      */
-    public function export_to_xml($question, qformat_xml $format, $extra=null) {
+    public function export_to_xml($question, qformat_xml $format, $extra = null) {
 
         foreach ($question->options->answers as $answer) {
             $expout .= $format->write_answer($answer);
