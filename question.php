@@ -54,7 +54,6 @@ const QTYPE_REGEXMATCH_CLOZE_ALLOWED_OPTIONS = ['I', 'D', 'P', 'R', 'O', 'S', 'T
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class qtype_regexmatchcloze_question extends question_graded_automatically {
-
     /**
      * @var array<qtype_regexmatch_common_answer> array containing all the allowed regexes
      */
@@ -285,7 +284,7 @@ class qtype_regexmatchcloze_question extends question_graded_automatically {
      * @return question_state question_state::$gradedwrong, question_state::$gradedright or question_state::$gradedpartial.
      */
     public function get_question_state_for_answer(qtype_regexmatch_common_answer $answer, $submittedanswer) {
-        if($submittedanswer == null) {
+        if ($submittedanswer == null) {
             return question_state::$gradedwrong;
         }
 
