@@ -36,7 +36,6 @@ defined('MOODLE_INTERNAL') || die();
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class qtype_regexmatchcloze_edit_form extends question_edit_form {
-
     /**
      * Generate edit html for editing regexmatchcloze questions
      * @param MoodleQuickForm $mform
@@ -79,13 +78,14 @@ class qtype_regexmatchcloze_edit_form extends question_edit_form {
         &$repeatedoptions,
         &$answersoption
     ) {
-        $repeated = array();
+        $repeated = [];
 
         // Help button added in definition_inner
-        $repeated[] = $mform->createElement('textarea',
+        $repeated[] = $mform->createElement(
+            'textarea',
             'answer',
             $label,
-            array('size' => 1000, 'rows' => 7)
+            ['size' => 1000, 'rows' => 7]
         );
 
         $repeated[] = $mform->createElement('static', 'options', get_string('options', 'qtype_regexmatchcloze'), 'I, D, P, R, O');
@@ -125,7 +125,7 @@ class qtype_regexmatchcloze_edit_form extends question_edit_form {
 
         preg_match_all("/\[\[(?P<number>[0-9]+)\]\]/", $questiontext, $matches);
 
-        $gaps = array();
+        $gaps = [];
         $max = -1;
         foreach ($matches['number'] as $number) {
             $max = max($max, $number);
@@ -157,7 +157,6 @@ class qtype_regexmatchcloze_edit_form extends question_edit_form {
                 if (preg_match('%^(\[\[.*\]\][ \\n]*)+/[a-zA-Z]*/([ \\n]*\\%[0-9]+[ \\n]*(\[\[.*\]\][ \\n]*)+/[a-zA-Z]*/[ \\n]*)*.*$%s', $remaining) != 1) {
                     $errors["answer[$key]"] = get_string('valerror_illegalsyntax', 'qtype_regexmatchcloze');
                 } else {
-
                     // First look for the options "]] /OPTIONS/"
                     if (preg_match("%]][ \\n]*/[a-zA-Z]*/%", $remaining, $matches, PREG_OFFSET_CAPTURE)) {
                         $first = true;
@@ -167,14 +166,13 @@ class qtype_regexmatchcloze_edit_form extends question_edit_form {
                                 $percent = 100;
                                 $percentoffset = 0;
                             } else {
-
                                 if (!preg_match("%]][ \\n]*/[a-zA-Z]*/%", $remaining, $matches, PREG_OFFSET_CAPTURE)) {
                                     // Invalid syntax.
                                     $errors["answer[$key]"] = get_string('valerror_illegalsyntax', 'qtype_regexmatchcloze');
                                     return $errors;
                                 }
 
-                                if(!preg_match("/%[0-9]+/", $remaining, $percentmatch)) {
+                                if (!preg_match("/%[0-9]+/", $remaining, $percentmatch)) {
                                     $percent = -1;
                                     $percentoffset = 0;
                                 } else {
@@ -194,13 +192,12 @@ class qtype_regexmatchcloze_edit_form extends question_edit_form {
                             $regularexpressions = substr($remaining, $percentoffset, $index - $percentoffset);
                             $regularexpressions = trim($regularexpressions); // Now trim all spaces at the beginning and end
                             if (!qtype_regexmatch_common_str_starts_with($regularexpressions, '[[')) {
-                                $a = array(
+                                $a = [
                                     'context' => substr($remaining, 0, $index - $percentoffset),
                                     'actual' => substr($regularexpressions, 0, 1),
                                     'expected' => '[[',
-                                );
+                                ];
                                 $errors["answer[$key]"] = get_string('valerror_illegalchar', 'qtype_regexmatchcloze', $a);
-
                             }
                             $regularexpressions = substr($regularexpressions, 2); // remove the starting "[["
 
@@ -213,7 +210,7 @@ class qtype_regexmatchcloze_edit_form extends question_edit_form {
                             $options = trim($options); // Now trim all spaces at the beginning and end
                             $options = substr($options, 1, strlen($options) - 2); // remove first and last "/"
 
-                            if($options !== '') {
+                            if ($options !== '') {
                                 foreach (str_split($options) as $option) {
                                     $found = false;
                                     foreach (QTYPE_REGEXMATCH_CLOZE_ALLOWED_OPTIONS as $allowed) {
@@ -233,7 +230,6 @@ class qtype_regexmatchcloze_edit_form extends question_edit_form {
                             // Key Value pairs or more regexes (cloze)
                             $remaining = substr($remaining, $index + strlen($matches[0][0]));
                             $remaining = trim($remaining);
-
                         } while (qtype_regexmatch_common_str_starts_with($remaining, "%"));
 
                         // Key Value pairs
@@ -278,16 +274,18 @@ class qtype_regexmatchcloze_edit_form extends question_edit_form {
                                             }
                                         }
                                         if ($isallowed) {
-                                            $errors["answer[$key]"] = get_string('valerror_illegalkeyorder', 'qtype_regexmatchcloze',
-                                                implode(', ', QTYPE_REGEXMATCH_CLOZE_ALLOWED_KEYS));
+                                            $errors["answer[$key]"] = get_string(
+                                                'valerror_illegalkeyorder',
+                                                'qtype_regexmatchcloze',
+                                                implode(', ', QTYPE_REGEXMATCH_CLOZE_ALLOWED_KEYS)
+                                            );
                                         } else {
                                             $errors["answer[$key]"] = get_string('valerror_unkownkey', 'qtype_regexmatchcloze', $match);
                                         }
-
                                     }
 
                                 } else {
-                                    if(str_contains($keyvaluepair, "%")) {
+                                    if (str_contains($keyvaluepair, "%")) {
                                         $errors["answer[$key]"] = get_string('valerror_illegalsyntaxspecificwithpercent', 'qtype_regexmatchcloze', $keyvaluepair);
                                     } else {
                                         $errors["answer[$key]"] = get_string('valerror_illegalsyntaxspecific', 'qtype_regexmatchcloze', $keyvaluepair);

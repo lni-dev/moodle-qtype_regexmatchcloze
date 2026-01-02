@@ -36,7 +36,6 @@ defined('MOODLE_INTERNAL') || die();
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 class qtype_regexmatchcloze_renderer extends qtype_renderer {
-
     /**
      * Generate the display of the formulation part of this regexmatchcloze question.
      *
@@ -48,17 +47,16 @@ class qtype_regexmatchcloze_renderer extends qtype_renderer {
         question_attempt $qa,
         question_display_options $options
     ): string {
-
         /* @var $question qtype_regexmatchcloze_question */
         $question = $qa->get_question();
 
         // Text to be displayed for this question (set when creating)
         $questiontext = $question->format_questiontext($qa);
 
-        $inputattributes = array(
+        $inputattributes = [
             'type' => 'text',
             'class' => 'form-control d-inline',
-        );
+        ];
         if ($options->readonly) {
             $inputattributes['readonly'] = 'readonly';
         }
@@ -109,7 +107,7 @@ class qtype_regexmatchcloze_renderer extends qtype_renderer {
             $res = $question->get_regex_for_answer($answer, $submittedanswer);
 
             if ($res == null) {
-                $res = array('0');
+                $res = ['0'];
             }
 
             $key = $answer->feedback; // index is stored in feedback
