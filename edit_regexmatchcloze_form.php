@@ -284,7 +284,7 @@ class qtype_regexmatchcloze_edit_form extends question_edit_form {
                                         }
                                     }
                                 } else {
-                                    if (str_contains($keyvaluepair, "%")) {
+                                    if (strpos($keyvaluepair, "%") !== false) {
                                         $errors["answer[$key]"] = get_string('valerror_illegalsyntaxspecificwithpercent', 'qtype_regexmatchcloze', $keyvaluepair);
                                     } else {
                                         $errors["answer[$key]"] = get_string('valerror_illegalsyntaxspecific', 'qtype_regexmatchcloze', $keyvaluepair);
